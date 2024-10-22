@@ -7,30 +7,27 @@ import {
   StyleSheet,
   Dimensions,
 } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
-import Svg, { Path, Circle, Rect } from "react-native-svg";
+import UserContext from "../../context/UserContext";
+import { signin } from "../../src/api/user";
 import { useMutation } from "@tanstack/react-query";
-
-const LoginScreen = () => {
+import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { useContext } from "react";
+const Login = () => {
+  const navigation = useNavigation();
   const [userInfo, setUserInfo] = useState({});
-  // const { setUser } = useContext(UserContext);
-  const { mutate } = useMutation({
+  const {user,setUser} = useContext(UserContext); 
+   const {mutate: login} = useMutation({
     mutationKey: ["login"],
-    mutationFn: async () => {
-      login(userInfo);
-    },
+    mutationFn: () => signin(userInfo),
     onSuccess: () => {
       setUser(true);
-    },
+      
+    }
   });
-  const handleInputChange = (name, value) => {
-    setUserInfo((prev) => ({ ...prev, [name]: value }));
+  if(user) {
+  navigation.navigate("Home")
   };
-
-  const handleLogin = () => {
-    mutate(); // Use the mutate function to trigger the login mutation
-  };
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>{/* Add your decorative shapes here */}</View>
@@ -46,10 +43,11 @@ const LoginScreen = () => {
         <View style={styles.inputContainer}>
           <FontAwesome name="user" size={20} color="white" />
           <TextInput
+            onChangeText={(value) => setUserInfo({...userInfo, username: value})}
             placeholder="Username"
             placeholderTextColor="#666"
             style={styles.input}
-            onChangeText={(value) => handleInputChange("username", value)}
+            
           />
         </View>
       </View>
@@ -57,13 +55,14 @@ const LoginScreen = () => {
       <View style={styles.inputContainer}>
         <FontAwesome name="lock" size={20} color="white" />
         <TextInput
+            onChangeText={(value) => setUserInfo({...userInfo, password: value})}
           placeholder="Password"
           placeholderTextColor="#666"
           style={styles.input}
           secureTextEntry
         />
       </View>
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+      <TouchableOpacity style={styles.button}  onPress={login}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
 

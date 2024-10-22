@@ -1,19 +1,48 @@
-import { StyleSheet, View } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, View, SafeAreaView } from "react-native";
 import Register from "./screens/Auth/Register";
+import Login from "./screens/Auth/Login";
+import UserContext from "./context/UserContext";
+import Home from "./screens/Home/home";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import AuthNavigation from "./navigation/AuthNavigation/AuthNavigation";
 import { NavigationContainer } from "@react-navigation/native";
-import HomeNavigation from "./src/navigation/HomeNavigation/HomeNavigation";
-import UserContext from "./src/context/UserContext";
-import { useState } from "react";
-import AuthNavigation from "./src/navigation/AuthNavigation/AuthNavigation";
-
+import { useState, useEffect } from "react";
+import { getToken } from "./src/api/storage";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 export default function App() {
-  const [user, setUser] = useState(false);
+  const [user,setUser] = useState(false)
+  const queryClient = new QueryClient()
+  const checkToken = async () => {
+    const token = await getToken();
+
+    if (token) {
+      setUser(true);
+    }
+  };
+  useEffect(() => {
+    checkToken();
+  });
+
   return (
-    <UserContext.Provider value={{ user, setUser }}>
-      <NavigationContainer>
+    <NavigationContainer>
+    <UserContext.Provider value={{user , setUser}}>
+    <QueryClientProvider client={queryClient}>
+      <SafeAreaProvider>
+    <SafeAreaView style={{flex: 1, backgroundColor: "black"}}>
+      
+    
+        {/* <Register /> */}
+        {/* <Login /> */}
+        {/* <Home /> */}
         <AuthNavigation />
-      </NavigationContainer>
-    </UserContext.Provider>
+    
+    
+    </SafeAreaView>
+    </SafeAreaProvider>
+    </QueryClientProvider>
+   </UserContext.Provider>
+   </NavigationContainer>
   );
 }
 
