@@ -9,6 +9,7 @@ import AuthNavigation from "./src/navigation/AuthNavigation/AuthNavigation";
 export default function App() {
   const [user, setUser] = useState(false);
   return (
+
     <UserContext.Provider value={{ user, setUser }}>
       <NavigationContainer>
         <AuthNavigation />
