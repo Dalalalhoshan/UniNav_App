@@ -6,26 +6,47 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-
+import UserContext from "../../context/UserContext";
+import { signin } from "../../src/api/user";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { useContext } from "react";
 const Login = () => {
+  const navigation = useNavigation();
+  const [userInfo, setUserInfo] = useState({});
+  const {user,setUser} = useContext(UserContext); 
+   const {mutate: login} = useMutation({
+    mutationKey: ["login"],
+    mutationFn: () => signin(userInfo),
+    onSuccess: () => {
+      setUser(true);
+      
+    }
+  });
+  if(user) {
+  navigation.navigate("Home")
+  };
   return (
     <View style={{ flex: 1, backgroundColor: "#454545" }}>
       <View style={styles.container}>
         <Text style={styles.title}>Login</Text>
         <View style={{ gap: 10 }}>
           <TextInput
+            onChangeText={(value) => setUserInfo({...userInfo, username: value})}
             placeholder="username"
             style={styles.input}
             keyboardType="default"
             autoCapitalize="none"
           />
           <TextInput
+            onChangeText={(value) => setUserInfo({...userInfo, password: value})}
             placeholder="Password"
             style={styles.input}
             secureTextEntry={true}
           />
         </View>
-        <TouchableOpacity style={{ backgroundColor: "#689bf7", padding: 10 }}>
+        <TouchableOpacity style={{ backgroundColor: "#689bf7", padding: 10 }} onPress={login}>
           <Text
             style={{
               color: "white",
