@@ -1,14 +1,19 @@
-import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
 import Register from "./screens/Auth/Register";
-import Login from "./screens/Auth/Login";
+import { NavigationContainer } from "@react-navigation/native";
+import HomeNavigation from "./src/navigation/HomeNavigation/HomeNavigation";
+import UserContext from "./src/context/UserContext";
+import { useState } from "react";
+import AuthNavigation from "./src/navigation/AuthNavigation/AuthNavigation";
+
 export default function App() {
+  const [user, setUser] = useState(false);
   return (
-    <UserContext.Provider value={{user , setUser}}>
-      <View style={styles.container}>
-        <Register />
-        {/* <Login /> */}
-      </View>
+
+    <UserContext.Provider value={{ user, setUser }}>
+      <NavigationContainer>
+        <AuthNavigation />
+      </NavigationContainer>
     </UserContext.Provider>
   );
 }

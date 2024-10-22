@@ -7,8 +7,11 @@ import {
   StyleSheet,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import NAVIGATION from "../../src/navigation";
 
 const RegisterScreen = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.header}>{/* Add your decorative shapes here */}</View>
@@ -41,7 +44,18 @@ const RegisterScreen = () => {
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
+
       <Text style={styles.orText}>or</Text>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {
+          navigation.navigate(NAVIGATION.AUTH.LOGIN);
+        }}
+      >
+        <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
+
       <View style={styles.socialContainer}>
         <FontAwesome
           name="google"
