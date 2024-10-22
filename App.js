@@ -2,12 +2,19 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
 import Register from "./screens/Auth/Register";
 import Login from "./screens/Auth/Login";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 export default function App() {
+  const queryClient = new QueryClient();
   return (
-    <View style={styles.container}>
-      <Register />
-      {/* <Login /> */}
-    </View>
+    <>
+      <QueryClientProvider client={queryClient}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#454545" }}>
+          <Register />
+          {/* <Login /> */}
+        </SafeAreaView>
+      </QueryClientProvider>
+    </>
   );
 }
 
