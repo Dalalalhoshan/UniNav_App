@@ -4,10 +4,12 @@ import Register from "./screens/Auth/Register";
 import Login from "./screens/Auth/Login";
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Register />
-      {/* <Login /> */}
-    </View>
+    <UserContext.Provider value={{user , setUser}}>
+      <View style={styles.container}>
+        <Register />
+        {/* <Login /> */}
+      </View>
+    </UserContext.Provider>
   );
 }
 
