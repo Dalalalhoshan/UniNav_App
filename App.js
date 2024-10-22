@@ -1,20 +1,19 @@
-import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
 import Register from "./screens/Auth/Register";
-import Login from "./screens/Auth/Login";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { NavigationContainer } from "@react-navigation/native";
+import HomeNavigation from "./src/navigation/HomeNavigation/HomeNavigation";
+import UserContext from "./src/context/UserContext";
+import { useState } from "react";
+import AuthNavigation from "./src/navigation/AuthNavigation/AuthNavigation";
+
 export default function App() {
-  const queryClient = new QueryClient();
+  const [user, setUser] = useState(false);
   return (
-    <>
-      <QueryClientProvider client={queryClient}>
-        <SafeAreaView style={{ flex: 1, backgroundColor: "#454545" }}>
-          <Register />
-          {/* <Login /> */}
-        </SafeAreaView>
-      </QueryClientProvider>
-    </>
+    <UserContext.Provider value={{ user, setUser }}>
+      <NavigationContainer>
+        <AuthNavigation />
+      </NavigationContainer>
+    </UserContext.Provider>
   );
 }
 
