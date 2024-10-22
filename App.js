@@ -5,8 +5,8 @@ import Login from "./screens/Auth/Login";
 export default function App() {
   return (
     <View style={styles.container}>
-      {/* <Register /> */}
-      <Login />
+      <Register />
+      {/* <Login /> */}
     </View>
   );
 }
@@ -18,6 +18,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
-    width: "100%",
+    // width: "100%",
   },
 });

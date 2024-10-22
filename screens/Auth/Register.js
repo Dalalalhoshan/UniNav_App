@@ -1,75 +1,60 @@
-import React, { useState } from "react";
+import React from "react";
 import {
-  TextInput,
   View,
-  TouchableOpacity,
   Text,
+  TextInput,
+  TouchableOpacity,
   StyleSheet,
 } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
 
-const Register = () => {
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [major, setMajor] = useState("");
+const RegisterScreen = () => {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <View style={styles.container}>
-        <Text style={styles.title}>Register</Text>
-        <View style={{ gap: 10 }}>
-          <TextInput
-            placeholder="Email"
-            style={styles.input}
-            keyboardType="email-address"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-          />
-          <TextInput
-            placeholder="Username"
-            style={styles.input}
-            keyboardType="default"
-            autoCapitalize="none"
-            value={username}
-            onChangeText={(text) => setUsername(text)}
-          />
-          <TextInput
-            placeholder="Password"
-            style={styles.input}
-            secureTextEntry={true}
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-          />
-          <TextInput
-            placeholder="Confirm Password"
-            style={styles.input}
-            secureTextEntry={true}
-            value={confirmPassword}
-            onChangeText={(text) => setConfirmPassword(text)}
-          />
-          <TextInput
-            placeholder="Major"
-            style={styles.input}
-            value={major}
-            onChangeText={(text) => setMajor(text)}
-          />
-        </View>
-        <TouchableOpacity style={{ backgroundColor: "#689bf7", padding: 10 }}>
-          <Text
-            style={{
-              color: "white",
-              fontWeight: "bold",
-              width: 100,
-              textAlign: "center",
-            }}
-          >
-            Register
-          </Text>
-        </TouchableOpacity>
-        <Text style={{ color: "white" }}>Have an account?</Text>
-        <TouchableOpacity>
-          <Text style={{ color: "#689bf7", fontWeight: "bold" }}>Login</Text>
-        </TouchableOpacity>
+    <View style={styles.container}>
+      <View style={styles.header}>{/* Add your decorative shapes here */}</View>
+      <Text style={styles.title}>CREATE AN ACCOUNT</Text>
+      <View style={styles.inputContainer}>
+        <FontAwesome name="user" size={20} color="white" />
+        <TextInput
+          placeholder="Name"
+          placeholderTextColor="#666"
+          style={styles.input}
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <FontAwesome name="envelope" size={20} color="white" />
+        <TextInput
+          placeholder="Email"
+          placeholderTextColor="#666"
+          style={styles.input}
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <FontAwesome name="lock" size={20} color="white" />
+        <TextInput
+          placeholder="Password"
+          placeholderTextColor="#666"
+          style={styles.input}
+          secureTextEntry
+        />
+      </View>
+      <TouchableOpacity style={styles.button}>
+        <Text style={styles.buttonText}>Sign Up</Text>
+      </TouchableOpacity>
+      <Text style={styles.orText}>or</Text>
+      <View style={styles.socialContainer}>
+        <FontAwesome
+          name="google"
+          size={30}
+          color="white"
+          style={styles.socialIcon}
+        />
+        <FontAwesome
+          name="facebook"
+          size={30}
+          color="white"
+          style={styles.socialIcon}
+        />
       </View>
     </View>
   );
@@ -77,38 +62,66 @@ const Register = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 3,
-    backgroundColor: "#454545",
+    flex: 1,
+    width: "100%",
+    backgroundColor: "#1a1a1a",
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
   },
-  input: {
-    borderWidth: 1,
-    padding: 10,
-    width: 300,
-    borderRadius: 10,
-    borderColor: "gray",
-    marginBottom: 10,
-    color: "#689bf7",
-    fontWeight: "bold",
-    color: "white",
-    placeholderTextColor: "white",
+  header: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 200,
+    backgroundColor: "#4b3f72",
+    borderBottomLeftRadius: 50,
+    borderBottomRightRadius: 50,
   },
-
   title: {
-    fontSize: 20,
+    color: "white",
+    fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
-    color: "#689bf7",
   },
-  footer: {
-    flex: 1,
+  inputContainer: {
+    flexDirection: "row",
     alignItems: "center",
+    backgroundColor: "#333",
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    marginVertical: 10,
+    width: "100%",
+  },
+  input: {
+    flex: 1,
+    color: "white",
+    padding: 10,
+  },
+  button: {
+    backgroundColor: "#f0a500",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginVertical: 20,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  orText: {
+    color: "white",
+    marginVertical: 10,
+  },
+  socialContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    gap: 10,
+  },
+  socialIcon: {
+    marginHorizontal: 10,
   },
 });
 
-export default Register;
+export default RegisterScreen;
