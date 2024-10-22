@@ -26,7 +26,16 @@ const Login = () => {
           />
         </View>
         <TouchableOpacity style={{ backgroundColor: "#689bf7", padding: 10 }}>
-          <Text style={{ color: "white", fontWeight: "bold" }}>Login</Text>
+          <Text
+            style={{
+              color: "white",
+              fontWeight: "bold",
+              width: 100,
+              textAlign: "center",
+            }}
+          >
+            Login
+          </Text>
         </TouchableOpacity>
 
         <Text style={{ color: "white" }}>Don't have an account?</Text>
