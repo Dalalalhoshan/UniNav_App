@@ -9,14 +9,15 @@ import {
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import Svg, { Path, Circle, Rect } from "react-native-svg";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 import { SelectList } from 'react-native-dropdown-select-list'
 import { signup } from "../../src/api/auth";
+import { getMajors } from "../../src/api/majors";
 import UserContext from "../../context/UserContext";
 const { width, height } = Dimensions.get("window");
 const RegisterScreen = () => {
-  // const navigation = useNavigation();
+  const navigation = useNavigation();
   const [userInfo, setUserInfo] = useState({});
   const { user, setUser } = useContext(UserContext);
   const { mutate: register, isLoading } = useMutation({
@@ -26,6 +27,11 @@ const RegisterScreen = () => {
       setUser(true);
     },
   });
+  const { data: majors } = useQuery({
+    queryKey: ["majors"],
+    queryFn: () => getMajors(),
+  });
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>{/* Add your decorative shapes here */}</View>
@@ -45,7 +51,7 @@ const RegisterScreen = () => {
             placeholderTextColor="#666"
             style={styles.input}
             onChangeText={(value) =>
-              setUserInfo((prev) => ({ ...prev, name: value }))
+              setUserInfo((userInfo) => ({ ...userInfo, name: value }))
             }
           />
         </View>
@@ -57,7 +63,7 @@ const RegisterScreen = () => {
           placeholderTextColor="#666"
           style={styles.input}
           onChangeText={(value) =>
-            setUserInfo((prev) => ({ ...prev, email: value }))
+            setUserInfo((userInfo) => ({ ...userInfo, email: value }))
           }
         />
       </View>
@@ -69,7 +75,7 @@ const RegisterScreen = () => {
           style={styles.input}
           secureTextEntry
           onChangeText={(value) =>
-            setUserInfo((prev) => ({ ...prev, password: value }))
+            setUserInfo((userInfo) => ({ ...userInfo, password: value }))
           }
         />
       </View>
@@ -82,7 +88,7 @@ const RegisterScreen = () => {
           style={styles.input}
           secureTextEntry
           onChangeText={(value) =>
-            setUserInfo((prev) => ({ ...prev, confirmPassword: value }))
+            setUserInfo((userInfo) => ({ ...userInfo, confirmPassword: value }))
           }
         />
       </View>
@@ -90,8 +96,9 @@ const RegisterScreen = () => {
         <SelectList
         style={{width: "90%"}}
         placeholder="Major"
-          setSelected={(value) => setUserInfo((prev) => ({ ...prev, major: value }))}
-          data={["Computer Science", "Software Engineering", "Cyber Security"]}
+          setSelected={(label) => setUserInfo((userInfo) => ({ ...userInfo, major: label }))}
+          data={majors?.map((major) => ({value: major._id, label: major.name}))}
+          onSelect={() => console.log(userInfo.major)}
           save="value"
         />
       </View>

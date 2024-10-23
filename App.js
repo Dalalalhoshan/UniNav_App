@@ -4,12 +4,15 @@ import Register from "./screens/Auth/Register";
 import Login from "./screens/Auth/Login";
 import UserContext from "./context/UserContext";
 import Home from "./screens/Home/home";
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { deleteToken } from "./src/api/storage";
 import AuthNavigation from "./navigation/AuthNavigation/AuthNavigation";
 import { NavigationContainer } from "@react-navigation/native";
 import { useState, useEffect } from "react";
 import { getToken } from "./src/api/storage";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import NoAuthHome from "./screens/Home/NoAuthHome";
+import MainNavigation from "./navigation/MainNavigation/MainNavigation";
 export default function App() {
   const [user,setUser] = useState(false)
   const queryClient = new QueryClient()
@@ -32,11 +35,12 @@ export default function App() {
     <SafeAreaView style={{flex: 1, backgroundColor: "black"}}>
       
     
-        <Register />
+        {/* <Register /> */}
         {/* <Login /> */}
         {/* <Home /> */}
         {/* <AuthNavigation /> */}
-    
+        {/* <NoAuthHome /> */}
+    {user ? <MainNavigation /> : <AuthNavigation />}
     
     </SafeAreaView>
     </SafeAreaProvider>
