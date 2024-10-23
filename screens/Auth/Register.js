@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -11,16 +11,17 @@ import { FontAwesome } from "@expo/vector-icons";
 import Svg, { Path, Circle, Rect } from "react-native-svg";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
+import { SelectList } from 'react-native-dropdown-select-list'
+import { signup } from "../../src/api/auth";
+import UserContext from "../../context/UserContext";
 const { width, height } = Dimensions.get("window");
 const RegisterScreen = () => {
   // const navigation = useNavigation();
   const [userInfo, setUserInfo] = useState({});
-  // const { setUser } = useContext(UserContext);
-  const { mutate, isLoading } = useMutation({
+  const { user, setUser } = useContext(UserContext);
+  const { mutate: register, isLoading } = useMutation({
     mutationKey: ["signup"],
-    mutationFn: async () => {
-      signup(userInfo);
-    },
+    mutationFn: () => signup(userInfo),
     onSuccess: () => {
       setUser(true);
     },
@@ -85,9 +86,18 @@ const RegisterScreen = () => {
           }
         />
       </View>
+      <View style={styles.inputContainer}>
+        <SelectList
+        style={{width: "90%"}}
+        placeholder="Major"
+          setSelected={(value) => setUserInfo((prev) => ({ ...prev, major: value }))}
+          data={["Computer Science", "Software Engineering", "Cyber Security"]}
+          save="value"
+        />
+      </View>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => mutate()}
+        onPress={register}
         disabled={isLoading}
       >
         <Text style={styles.buttonText}>Sign Up</Text>

@@ -32,10 +32,10 @@ export default function App() {
     <SafeAreaView style={{flex: 1, backgroundColor: "black"}}>
       
     
-        {/* <Register /> */}
+        <Register />
         {/* <Login /> */}
         {/* <Home /> */}
-        <AuthNavigation />
+        {/* <AuthNavigation /> */}
     
     
     </SafeAreaView>
