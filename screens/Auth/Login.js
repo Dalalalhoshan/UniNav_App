@@ -10,9 +10,9 @@ import {
 import UserContext from "../../context/UserContext";
 import { signin } from "../../src/api/user";
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { useContext } from "react";
+import { FontAwesome } from "@expo/vector-icons";
+import Svg, { Circle, Rect, Path } from "react-native-svg";
 const Login = () => {
   const navigation = useNavigation();
   const [userInfo, setUserInfo] = useState({});
@@ -154,4 +154,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default Login;
