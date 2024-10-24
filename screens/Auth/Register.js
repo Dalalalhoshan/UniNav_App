@@ -51,7 +51,7 @@ const RegisterScreen = () => {
             placeholderTextColor="#666"
             style={styles.input}
             onChangeText={(value) =>
-              setUserInfo((userInfo) => ({ ...userInfo, name: value }))
+              setUserInfo((userInfo) => ({ ...userInfo, username: value }))
             }
           />
         </View>
@@ -97,7 +97,7 @@ const RegisterScreen = () => {
         style={{width: "90%"}}
         placeholder="Major"
           setSelected={(label) => setUserInfo((userInfo) => ({ ...userInfo, major: label }))}
-          data={majors?.map((major) => ({value: major._id, label: major.name}))}
+          data={majors?.map((major) => ({value: major.name, label: major.name}))}
           onSelect={() => console.log(userInfo.major)}
           save="value"
         />
