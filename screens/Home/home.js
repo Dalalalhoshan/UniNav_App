@@ -1,26 +1,40 @@
-import { StyleSheet, Text, View, TouchableOpacity , Image} from 'react-native'
-import React from 'react'
-
-import { useQuery } from '@tanstack/react-query'
-import { getAllCourses } from '../../src/api/courses'
-
+import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import React, { useContext } from "react";
+import UserContext from "../../context/UserContext";
+import { useQuery } from "@tanstack/react-query";
+import { getAllCourses } from "../../src/api/courses";
+import { deleteToken } from "../../src/api/storage";
 // import { getAllCommunities } from '../../src/api/community'
 const Home = () => {
-    const {data: courses} = useQuery({
-        queryKey: ["courses"],
-        queryFn: getAllCourses
-    })
-    // const {data: community} = useQuery({
-    //     queryKey: ["community"],
-    //     queryFn: () => getAllCommunities()
-    // })
+  // const
+  const { user, setUser } = useContext(UserContext);
+
+  const { data: courses } = useQuery({
+    queryKey: ["courses"],
+    queryFn: getAllCourses,
+  });
+
+  // const {data: community} = useQuery({
+  //     queryKey: ["community"],
+  //     queryFn: () => getAllCommunities()
+  // })
   return (
-    <View >  
-        <Text style={{fontSize: 20, fontWeight: "bold", color: "white"}}>Courses</Text>
+    <View>
+      <TouchableOpacity onPress={() => deleteToken() && setUser(false)}>
+        <Text style={{ fontSize: 20, fontWeight: "bold", color: "red" }}>
+          Logout
+        </Text>
+      </TouchableOpacity>
+      <Text style={{ fontSize: 20, fontWeight: "bold", color: "white" }}>
+        Courses
+      </Text>
       {courses?.map((course) => (
-        <TouchableOpacity style={{flexDirection: "row", alignItems: "center", gap: 10}}>
-     
-        <Text style={{fontSize: 20, fontWeight: "bold", color: "white"}}>{course.name}</Text>
+        <TouchableOpacity
+          style={{ flexDirection: "row", alignItems: "center", gap: 10 }}
+        >
+          <Text style={{ fontSize: 20, fontWeight: "bold", color: "white" }}>
+            {course.name}
+          </Text>
         </TouchableOpacity>
       ))}
       {/* <Text>Community</Text>
