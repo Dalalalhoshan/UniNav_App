@@ -4,7 +4,7 @@ import Register from "./screens/Auth/Register";
 import Login from "./screens/Auth/Login";
 import UserContext from "./context/UserContext";
 import Home from "./screens/Home/home";
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { deleteToken } from "./src/api/storage";
 import AuthNavigation from "./navigation/AuthNavigation/AuthNavigation";
 import { NavigationContainer } from "@react-navigation/native";
@@ -14,8 +14,8 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import NoAuthHome from "./screens/Home/NoAuthHome";
 import MainNavigation from "./navigation/MainNavigation/MainNavigation";
 export default function App() {
-  const [user,setUser] = useState(false)
-  const queryClient = new QueryClient()
+  const [user, setUser] = useState(false);
+  const queryClient = new QueryClient();
   const checkToken = async () => {
     const token = await getToken();
 
@@ -29,24 +29,21 @@ export default function App() {
 
   return (
     <NavigationContainer>
-    <UserContext.Provider value={{user , setUser}}>
-    <QueryClientProvider client={queryClient}>
-      <SafeAreaProvider>
-    <SafeAreaView style={{flex: 1, backgroundColor: "black"}}>
-      
-    
-        {/* <Register /> */}
-        {/* <Login /> */}
-        {/* <Home /> */}
-        {/* <AuthNavigation /> */}
-        {/* <NoAuthHome /> */}
-    {user ? <MainNavigation /> : <AuthNavigation />}
-    
-    </SafeAreaView>
-    </SafeAreaProvider>
-    </QueryClientProvider>
-   </UserContext.Provider>
-   </NavigationContainer>
+      <UserContext.Provider value={{ user, setUser }}>
+        <QueryClientProvider client={queryClient}>
+          <SafeAreaProvider>
+            <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
+              {/* <Register /> */}
+              {/* <Login /> */}
+              {/* <Home /> */}
+              {/* <AuthNavigation /> */}
+              {/* <NoAuthHome /> */}
+              {user ? <MainNavigation /> : <AuthNavigation />}
+            </SafeAreaView>
+          </SafeAreaProvider>
+        </QueryClientProvider>
+      </UserContext.Provider>
+    </NavigationContainer>
   );
 }
 
