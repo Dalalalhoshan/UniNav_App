@@ -1,8 +1,10 @@
 import instance from ".";
 
 const createResource = async (resource) => {
-  const response = await instance.post("/resources", resource);
-  return response.data;
+  const formData = new FormData();
+  for (const k in resource) formData.append(k, resource[k]);
+  const { data } = await instance.post("/resources", formData);
+  return data;
 };
 
 const getResources = async () => {
@@ -19,5 +21,35 @@ const deleteResource = async (id) => {
   const response = await instance.delete(`/resources/${id}`);
   return response.data;
 };
-
-export { createResource, getResources, getResourceById, deleteResource };
+const toggleLikeResource = async (id) => {
+  try {
+    const { data } = await instance.post(`/resources/${id}/like`);
+    return data;
+  } catch (error) {
+    console.error(
+      "Error liking resource:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+const toggleDislikeResource = async (id) => {
+  try {
+    const { data } = await instance.post(`/resources/${id}/dislike`);
+    return data;
+  } catch (error) {
+    console.error(
+      "Error disliking resource:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+export {
+  createResource,
+  getResources,
+  getResourceById,
+  deleteResource,
+  toggleLikeResource,
+  toggleDislikeResource,
+};

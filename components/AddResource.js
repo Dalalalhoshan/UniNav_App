@@ -23,7 +23,7 @@ const AddResource = () => {
     },
   });
   const { data: resourceTypes } = useQuery({
-    queryKey: ["resourceTypes"],
+    queryKey: ["resourceTypess"],
     queryFn: () => getResourceTypes(),
   });
   return (

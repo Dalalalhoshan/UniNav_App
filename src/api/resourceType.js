@@ -1,7 +1,7 @@
 import instance from ".";
 
-const createResourceType = async (resourceType) => {
-  const response = await instance.post("/resourceType", resourceType);
+const createResourceType = async (ResourceType) => {
+  const response = await instance.post("/resourceType", ResourceType);
   return response.data;
 };
 

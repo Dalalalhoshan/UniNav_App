@@ -8,6 +8,9 @@ import Commuinties from "../../screens/Communities/Commuinties";
 import Chat from "../../screens/Chat/Chat";
 import Explore from "../../screens/Explore/Explore";
 import AddResource from "../../components/AddResource";
+import ChatNavigation from "../ChatNavigation/ChatNavigation";
+import CommunityNavigation from "../CommuintyNavgation/CommunityNavigation";
+import ProfessorNavigation from "../ProfessorNavigation/ProfessorNavigation";
 const Tab = createBottomTabNavigator();
 const MainNavigation = () => {
   const size = 32;
@@ -32,7 +35,7 @@ const MainNavigation = () => {
       }}
     >
       <Tab.Screen
-        name="Home"
+        name="HomeIndex"
         component={HomeNavigation}
         options={{
           tabBarIcon: ({ focused }) => (
@@ -45,8 +48,8 @@ const MainNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="Explore"
-        component={Explore}
+        name="ExploreIndex"
+        component={ProfessorNavigation}
         options={{
           tabBarIcon: ({ focused }) => (
             <Ionicons
@@ -58,7 +61,7 @@ const MainNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="AddResource"
+        name="AddResourceIndex"
         component={AddResource}
         options={{
           tabBarIcon: ({ focused }) => (
@@ -71,8 +74,8 @@ const MainNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="Communities"
-        component={Commuinties}
+        name="CommunitiesIndex"
+        component={CommunityNavigation}
         options={{
           tabBarIcon: ({ focused }) => (
             <Ionicons
@@ -84,8 +87,8 @@ const MainNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="Chat"
-        component={Chat}
+        name="ChatIndex"
+        component={ChatNavigation}
         options={{
           tabBarIcon: ({ focused }) => (
             <Ionicons
