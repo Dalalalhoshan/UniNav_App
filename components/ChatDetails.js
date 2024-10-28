@@ -14,6 +14,7 @@ import { createChat } from "../src/api/comment";
 import UserContext from "../context/UserContext";
 import { BASE_URL } from "../src/api"; // Ensure BASE_URL is correctly imported
 import { getMe } from "../src/api/auth";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const ChatDetails = ({ route }) => {
   const { id } = route.params;
@@ -69,48 +70,53 @@ const ChatDetails = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={comments}
-        keyExtractor={(item) => item._id}
-        renderItem={({ item }) => (
-          <View
-            style={[
-              item.user._id === myData?._id
-                ? styles.myCommentContainer
-                : styles.otherCommentContainer,
-            ]}
-          >
+      <KeyboardAwareScrollView enableOnAndroid={true}>
+        <FlatList
+          data={comments}
+          keyExtractor={(item) => item._id}
+          renderItem={({ item }) => (
             <View
               style={[
-                styles.commentBox,
                 item.user._id === myData?._id
-                  ? styles.myComment
-                  : styles.otherComment,
+                  ? styles.myCommentContainer
+                  : styles.otherCommentContainer,
               ]}
             >
-              <View style={styles.commentHeader}>
-                <Image
-                  source={{
-                    uri: `${BASE_URL}/${item.user.profileImage?.replace(
-                      "\\",
-                      "//"
-                    )}`,
-                  }}
-                  style={styles.commentUserImage}
-                />
-                <Text style={styles.commentUsername}>{item.user.username}</Text>
+              <View
+                style={[
+                  styles.commentBox,
+                  item.user._id === myData?._id
+                    ? styles.myComment
+                    : styles.otherComment,
+                ]}
+              >
+                <View style={styles.commentHeader}>
+                  <Image
+                    source={{
+                      uri: `${BASE_URL}/${item.user.profileImage?.replace(
+                        "\\",
+                        "//"
+                      )}`,
+                    }}
+                    style={styles.commentUserImage}
+                  />
+                  <Text style={styles.commentUsername}>
+                    {item.user.username}
+                  </Text>
+                </View>
+                <Text style={styles.commentText}>{item.content}</Text>
               </View>
-              <Text style={styles.commentText}>{item.content}</Text>
             </View>
-          </View>
-        )}
-      />
+          )}
+        />
+      </KeyboardAwareScrollView>
+
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
           value={newComment}
           onChangeText={setNewComment}
-          placeholder="Type a comment..."
+          placeholder="Send a message..."
           placeholderTextColor="#666" // Gray placeholder text
         />
         <TouchableOpacity

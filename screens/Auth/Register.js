@@ -11,10 +11,12 @@ import { FontAwesome } from "@expo/vector-icons";
 import Svg, { Path, Circle, Rect } from "react-native-svg";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
-import { SelectList } from 'react-native-dropdown-select-list'
+import { SelectList } from "react-native-dropdown-select-list";
 import { signup } from "../../src/api/auth";
 import { getMajors } from "../../src/api/majors";
 import UserContext from "../../context/UserContext";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 const { width, height } = Dimensions.get("window");
 const RegisterScreen = () => {
   const navigation = useNavigation();
@@ -35,13 +37,7 @@ const RegisterScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>{/* Add your decorative shapes here */}</View>
-      <Svg height="100" width="100" style={styles.shapes}>
-        <Circle cx="20" cy="20" r="3" fill="#f0a500" />
-        <Circle cx="50" cy="40" r="2" fill="#f0a500" />
-        <Circle cx="80" cy="60" r="3" fill="#f0a500" />
-        <Rect x="40" y="20" width="10" height="10" fill="#f0a500" />
-        <Rect x="60" y="50" width="8" height="8" fill="#f0a500" />
-      </Svg>
+
       <Text style={styles.title}>CREATE AN ACCOUNT</Text>
       <View style={{ gap: 10 }}>
         <View style={styles.inputContainer}>
@@ -88,16 +84,25 @@ const RegisterScreen = () => {
           style={styles.input}
           secureTextEntry
           onChangeText={(value) =>
-            setUserInfo((userInfo) => ({ ...userInfo, confirmPassword: value }))
+            setUserInfo((userInfo) => ({
+              ...userInfo,
+              confirmPassword: value,
+            }))
           }
         />
       </View>
       <View style={styles.inputContainer}>
         <SelectList
-        style={{width: "90%"}}
-        placeholder="Major"
-          setSelected={(label) => setUserInfo((userInfo) => ({ ...userInfo, major: label }))}
-          data={majors?.map((major) => ({value: major.name, label: major.name}))}
+          boxStyles={styles.selectList}
+          placeholder="Major"
+          searchPlaceholder="Search Major"
+          setSelected={(label) =>
+            setUserInfo((userInfo) => ({ ...userInfo, major: label }))
+          }
+          data={majors?.map((major) => ({
+            value: major.name,
+            label: major.name,
+          }))}
           onSelect={() => console.log(userInfo.major)}
           save="value"
         />
@@ -107,17 +112,17 @@ const RegisterScreen = () => {
         onPress={register}
         disabled={isLoading}
       >
-        <Text style={styles.buttonText}>Sign Up</Text>
+        <Text style={styles.buttonText}>Signup</Text>
       </TouchableOpacity>
       <Text style={styles.orText}>Already have an account?</Text>
       <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-        <Text style={[styles.buttonText, { color: "#f0a500" }]}>Login</Text>
+        <Text style={[styles.buttonText, { color: "#e8b800" }]}>Signin</Text>
       </TouchableOpacity>
 
       <View style={styles.waveContainer}>
         <Svg height="150" width="100%" viewBox="0 0 1440 320">
           <Path
-            fill="#f0a500"
+            fill="#e8b800"
             d="M0,224L48,213.3C96,203,192,181,288,192C384,203,480,245,576,245.3C672,245,768,203,864,186.7C960,171,1056,181,1152,186.7C1248,192,1344,192,1392,192L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
           />
         </Svg>
@@ -198,6 +203,12 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
+    marginTop: 50,
+  },
+  selectList: {
+    width: "100%",
+    textDecorationColor: "white",
+    backgroundColor: "#454545",
   },
 });
 
