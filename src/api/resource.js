@@ -1,10 +1,29 @@
 import instance from ".";
 
 const createResource = async (resource) => {
-  const formData = new FormData();
-  for (const k in resource) formData.append(k, resource[k]);
-  const { data } = await instance.post("/resources", formData);
-  return data;
+  try {
+    console.log(resource);
+    const formData = new FormData();
+
+    for (key in resource) {
+      if (key != "url") formData.append(key, resource[key]);
+    }
+
+    formData.append("url", {
+      name: "url.pdf",
+      type: "application/pdf",
+      uri: resource.url,
+    });
+    // for (const k in resource) formData.append(k, resource[k]);
+    const { data } = await instance.post("/resources", formData);
+    return data;
+  } catch (error) {
+    console.error(
+      "Error creating resource:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
 };
 
 const getResources = async () => {

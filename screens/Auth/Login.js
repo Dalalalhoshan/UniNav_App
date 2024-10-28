@@ -13,41 +13,34 @@ import { useMutation } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome } from "@expo/vector-icons";
 import Svg, { Circle, Rect, Path } from "react-native-svg";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 const Login = () => {
   const navigation = useNavigation();
   const [userInfo, setUserInfo] = useState({});
-  const {user,setUser} = useContext(UserContext); 
-   const {mutate: login} = useMutation({
+  const { user, setUser } = useContext(UserContext);
+  const { mutate: login } = useMutation({
     mutationKey: ["login"],
     mutationFn: () => signin(userInfo),
     onSuccess: () => {
       setUser(true);
-      
-    }
+    },
   });
-  if(user) {
-  navigation.navigate("Home")
-  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>{/* Add your decorative shapes here */}</View>
-      <Svg height="100" width="100" style={styles.shapes}>
-        <Circle cx="20" cy="20" r="3" fill="#f0a500" />
-        <Circle cx="50" cy="40" r="2" fill="#f0a500" />
-        <Circle cx="80" cy="60" r="3" fill="#f0a500" />
-        <Rect x="40" y="20" width="10" height="10" fill="#f0a500" />
-        <Rect x="60" y="50" width="8" height="8" fill="#f0a500" />
-      </Svg>
-      <Text style={styles.title}>LOGIN</Text>
+
+      <Text style={styles.title}>Signin</Text>
       <View style={{ gap: 10 }}>
         <View style={styles.inputContainer}>
           <FontAwesome name="user" size={20} color="white" />
           <TextInput
-            onChangeText={(value) => setUserInfo({...userInfo, username: value})}
+            onChangeText={(value) =>
+              setUserInfo({ ...userInfo, username: value })
+            }
             placeholder="Username"
             placeholderTextColor="#666"
             style={styles.input}
-            
           />
         </View>
       </View>
@@ -55,15 +48,21 @@ const Login = () => {
       <View style={styles.inputContainer}>
         <FontAwesome name="lock" size={20} color="white" />
         <TextInput
-            onChangeText={(value) => setUserInfo({...userInfo, password: value})}
+          onChangeText={(value) =>
+            setUserInfo({ ...userInfo, password: value })
+          }
           placeholder="Password"
           placeholderTextColor="#666"
           style={styles.input}
           secureTextEntry
         />
       </View>
-      <TouchableOpacity style={styles.button}  onPress={login}>
-        <Text style={styles.buttonText}>Login</Text>
+      <TouchableOpacity style={styles.button} onPress={login}>
+        <Text style={styles.buttonText}>Signin</Text>
+      </TouchableOpacity>
+      <Text style={styles.orText}>Don't have an account?</Text>
+      <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+        <Text style={[styles.buttonText, { color: "#f0a500" }]}>Signup</Text>
       </TouchableOpacity>
 
       <View style={styles.waveContainer}>
