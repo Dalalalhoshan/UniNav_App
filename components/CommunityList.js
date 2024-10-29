@@ -5,6 +5,7 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
+  ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { getAllCommunities } from "../src/api/Community";
@@ -19,13 +20,26 @@ const CommunityList = () => {
   });
 
   return (
-    <FlatList
-      data={data}
-      renderItem={({ item }) => <CommunityCard item={item} />}
-      keyExtractor={(item) => item._id}
-      numColumns={2}
-      columnWrapperStyle={styles.columnWrapper}
-    />
+    // <FlatList
+    //   data={data}
+    //   renderItem={({ item }) => <CommunityCard item={item} />}
+    //   keyExtractor={(item) => item._id}
+    //   numColumns={2}
+    //   columnWrapperStyle={styles.columnWrapper}
+    // />
+    <ScrollView>
+      <View
+        style={{
+          flexDirection: "row",
+          flexWrap: "wrap",
+          justifyContent: "space-evenly",
+        }}
+      >
+        {data?.map((item) => (
+          <CommunityCard item={item} key={item._id} />
+        ))}
+      </View>
+    </ScrollView>
   );
 };
 

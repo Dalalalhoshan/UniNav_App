@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useQuery } from "@tanstack/react-query";
-import { getMe } from "../api/user";
-import { BASE_URL } from "../api";
+import { getMe } from "../src/api/user";
+import { BASE_URL } from "../src/api/index";
 
 const Profile = () => {
   const [selectedOption, setSelectedOption] = useState(null);

@@ -96,6 +96,8 @@ const RegisterScreen = () => {
           boxStyles={styles.selectList}
           placeholder="Major"
           searchPlaceholder="Search Major"
+          inputStyles={{ color: "#ccc" }}
+          dropdownTextStyles={{ color: "#ccc" }}
           setSelected={(label) =>
             setUserInfo((userInfo) => ({ ...userInfo, major: label }))
           }

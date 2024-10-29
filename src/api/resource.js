@@ -12,7 +12,7 @@ const createResource = async (resource) => {
     formData.append("url", {
       name: "url.pdf",
       type: "application/pdf",
-      uri: resource.url,
+      uri: resource.file,
     });
     // for (const k in resource) formData.append(k, resource[k]);
     const { data } = await instance.post("/resources", formData);
