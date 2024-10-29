@@ -6,7 +6,7 @@ import ProfessorList from "../../components/ProfessorList";
 const Explore = () => {
   return (
     <View style={styles.container}>
-      <
+      
       <ProfessorList style={styles.professorList} />
       <UserList style={styles.userList} />
     </View>
