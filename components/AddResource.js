@@ -72,6 +72,8 @@ const AddResource = () => {
         <SelectList
           placeholder="Course"
           boxStyles={styles.selectList}
+          inputStyles={{ color: "#ccc" }}
+          dropdownTextStyles={{ color: "#ccc" }}
           setSelected={(value) => setResource({ ...resource, course: value })}
           data={courses?.map((course) => ({
             label: course.name,
@@ -83,6 +85,8 @@ const AddResource = () => {
         <SelectList
           placeholder="Community"
           boxStyles={styles.selectList}
+          inputStyles={{ color: "#ccc" }}
+          dropdownTextStyles={{ color: "#ccc" }}
           setSelected={(value) =>
             setResource({ ...resource, community: value })
           }
@@ -96,6 +100,8 @@ const AddResource = () => {
         <SelectList
           placeholder="Type"
           boxStyles={styles.selectList}
+          inputStyles={{ color: "#ccc" }}
+          dropdownTextStyles={{ color: "#ccc" }}
           setSelected={(value) => setResource({ ...resource, type: value })}
           data={resourceTypes?.map((resourceType) => ({
             label: resourceType.name,
@@ -105,7 +111,7 @@ const AddResource = () => {
         />
         <TouchableOpacity
           title="Pick Document"
-          style={styles.button}
+          style={styles.addDocumentButton}
           onPress={pickDocument}
         >
           <Text style={styles.buttonText}>Pick Document</Text>
@@ -151,6 +157,7 @@ const styles = StyleSheet.create({
   selectList: {
     width: 350,
     color: "white",
+    marginBottom: 10,
   },
   button: {
     backgroundColor: "#e8b800",
@@ -178,5 +185,14 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 20,
     marginTop: 50,
+  },
+  addDocumentButton: {
+    backgroundColor: "#689bf7",
+    padding: 10,
+    alignItems: "center",
+    borderRadius: 20,
+    width: 350,
+    marginBottom: 10,
+    marginTop: 10,
   },
 });

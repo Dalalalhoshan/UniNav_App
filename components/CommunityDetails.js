@@ -66,15 +66,15 @@ const CommunityDetails = ({ route }) => {
     queryKey: ["getCommunityById", id],
     queryFn: () => getCommunityById(id),
     onSuccess: (data) => {
-      const isUserFollower = data.followers.some(
+      const isUserFollower = data.followers?.some(
         (follower) => follower._id === userId
       );
       setIsJoined(isUserFollower); // Ensure this is set correctly
-      const hasUserRequested = data.joinRequests.some(
+      const hasUserRequested = data.joinRequests?.some(
         (request) => request === userId
       );
       setHasRequested(hasUserRequested);
-      setFollowerCount(data.followers.length);
+      setFollowerCount(data.followers?.length);
     },
   });
 
@@ -91,7 +91,6 @@ const CommunityDetails = ({ route }) => {
   const joinCommunityMutation = useMutation({
     mutationFn: () => requestToJoinCommunity(id),
     onSuccess: (data) => {
-      console.log(data);
       if (data.message == "Joined community successfully") {
         setIsJoined(true);
         setFollowerCount((prevCount) => prevCount + 1);
@@ -161,15 +160,15 @@ const CommunityDetails = ({ route }) => {
 
   useEffect(() => {
     if (communityData) {
-      const isUserFollower = communityData.followers.some(
+      const isUserFollower = communityData.followers?.some(
         (follower) => follower._id === userId
       );
-      const hasUserRequested = communityData.joinRequests.some(
+      const hasUserRequested = communityData.joinRequests?.some(
         (request) => request === userId
       );
       setIsJoined(isUserFollower);
       setHasRequested(hasUserRequested);
-      setFollowerCount(communityData.followers.length);
+      setFollowerCount(communityData.followers?.length);
     }
   }, [communityData, userId]); // Add userId as a dependency
 
@@ -201,7 +200,7 @@ const CommunityDetails = ({ route }) => {
       <View style={styles.header}>
         <Image
           source={{
-            uri: `${BASE_URL}/${communityData.profileImage.replace(
+            uri: `${BASE_URL}/${communityData.profileImage?.replace(
               "\\",
               "//"
             )}`,
@@ -217,7 +216,7 @@ const CommunityDetails = ({ route }) => {
           </TouchableOpacity>
           <Text style={styles.followersCount}>
             createdBy:
-            {communityData?.createdBy.username}
+            {communityData?.createdBy?.username}
           </Text>
         </View>
         <AnimatedButton isJoined={isJoined} handleJoinLeave={handleJoinLeave} />
@@ -256,7 +255,7 @@ const CommunityDetails = ({ route }) => {
           >
             <Text style={styles.submitButtonText}>Post</Text>
           </TouchableOpacity>
-          {commentsData && commentsData.length > 0 ? (
+          {commentsData && commentsData?.length > 0 ? (
             commentsData.map((comment) => (
               <TouchableOpacity
                 key={comment._id}
@@ -290,7 +289,7 @@ const CommunityDetails = ({ route }) => {
         </>
       ) : (
         <>
-          {communityData.resources && communityData.resources.length > 0 ? (
+          {communityData.resources && communityData.resources?.length > 0 ? (
             communityData.resources.map((resource) => (
               <View key={resource._id} style={styles.resourceContainer}>
                 <Text style={styles.resourceTitle}>{resource.title}</Text>
@@ -303,7 +302,7 @@ const CommunityDetails = ({ route }) => {
                     >
                       <Icon name="arrow-up" size={20} color="#28a745" />
                       <Text style={styles.voteCount}>
-                        {resource.likes.length}
+                        {resource.likes?.length}
                       </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -314,7 +313,7 @@ const CommunityDetails = ({ route }) => {
                     >
                       <Icon name="arrow-down" size={20} color="#dc3545" />
                       <Text style={styles.voteCount}>
-                        {resource.dislikes.length}
+                        {resource.dislikes?.length}
                       </Text>
                     </TouchableOpacity>
                   </View>
