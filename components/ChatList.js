@@ -1,11 +1,10 @@
 import React from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getMe } from "../src/api/user";
 import ChatCard from "./ChatCard";
 
 const ChatList = () => {
-  const queryClient = useQueryClient();
   const { data, error, isLoading } = useQuery({
     queryKey: ["getMe"],
     queryFn: getMe,
@@ -19,14 +18,28 @@ const ChatList = () => {
     return <Text style={styles.errorText}>Error: {error.message}</Text>;
   }
 
+  // Map over the chats to include the last comment
+  const userChats = data.Chats.map((chat) => {
+    const lastComment = chat.comments.sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    )[0];
+    return {
+      ...chat,
+      lastComment: lastComment || null,
+    };
+  });
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Recent Chats</Text>
       <FlatList
-        data={data.Chats}
-        renderItem={({ item }) => <ChatCard item={item} />}
+        data={userChats}
+        renderItem={({ item }) => (
+          <ChatCard item={item} authenticatedUserId={data._id} />
+        )}
         keyExtractor={(item) => item._id}
         contentContainerStyle={styles.listContainer}
+        style={styles.flatList}
       />
     </View>
   );
@@ -34,23 +47,29 @@ const ChatList = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: "#f9f9f9",
+    flex: 8,
+    padding: 5,
+    backgroundColor: "#252423",
   },
   header: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 15,
-    color: "#2c3e50",
+    color: "white",
   },
   loadingText: {
-    color: "#333",
+    color: "#689bf7",
     textAlign: "center",
   },
   errorText: {
-    color: "#e74c3c",
+    color: "#ff6888",
     textAlign: "center",
+  },
+  listContainer: {
+    paddingBottom: 20,
+  },
+  flatList: {
+    flex: 1,
   },
 });
 
