@@ -7,6 +7,7 @@ import {
   Image,
   ScrollView,
   Pressable,
+  ImageBackground,
 } from "react-native";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getMe } from "../../src/api/user";
@@ -16,6 +17,7 @@ import { BASE_URL } from "../../src/api";
 import { useNavigation } from "@react-navigation/native";
 import UserContext from "../../context/UserContext";
 import { getCommunityById } from "../../src/api/Community";
+import { colors } from "../../Colors";
 
 const Home = () => {
   const { user, setUser } = useContext(UserContext);
@@ -63,7 +65,7 @@ const Home = () => {
     return <Text style={styles.errorText}>Error loading user data</Text>;
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       {/* Overlay to close dropdown if clicked outside */}
       {showMenu && (
         <Pressable style={styles.overlay} onPress={() => setShowMenu(false)} />
@@ -132,12 +134,12 @@ const Home = () => {
       </ScrollView>
 
       {/* Bookmarks Section */}
-      <Text style={styles.sectionTitle}>Bookmarks:</Text>
+      <Text style={styles.sectionTitle}>Bookmarked Resources:</Text>
       <View style={styles.bookmarkContainer}>
         {userData?.bookmarks?.map((resource, index) => (
           <TouchableOpacity
             key={index}
-            style={styles.bookmarkText}
+            style={styles.bookMarkBox}
             onPress={() =>
               navigation.navigate("ResourceDetailIndex", {
                 id: resource._id,
@@ -152,7 +154,7 @@ const Home = () => {
       </View>
 
       {/* Courses Section */}
-      <Text style={styles.sectionTitle}>Rate Your Course:</Text>
+      <Text style={styles.sectionTitle}>Rate Your Courses:</Text>
       <ScrollView contentContainerStyle={styles.courseContainer}>
         {userData?.courses?.map((course, index) => (
           <TouchableOpacity
@@ -166,7 +168,7 @@ const Home = () => {
           </TouchableOpacity>
         ))}
       </ScrollView>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -178,18 +180,16 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: "#1a1a1a",
   },
-  overlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0, 0, 0, 0.3)",
-  },
+  // overlay: {
+  //   ...StyleSheet.absoluteFillObject,
+  //   backgroundColor: "rgba(0, 0, 0, 0.3)",
+  // },
   header: {
     width: "100%",
     padding: 20,
-    backgroundColor: "#4b3f72",
-    borderBottomLeftRadius: 30,
-    borderBottomRightRadius: 30,
-    justifyContent: "flex-start", // Aligns content to the top
-    paddingTop: 40, // Space for top padding to align better with top of the page
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    borderRadius: 30,
+    justifyContent: "center", // Aligns content to the top
   },
   headerContent: {
     flexDirection: "row",
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 20,
     marginVertical: 10,
-    color: "#fff",
+    color: colors.yellow,
   },
   communityContainer: {
     flexDirection: "row",
@@ -264,10 +264,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   bookmarkContainer: {
-    backgroundColor: "#333",
+    gap: 10,
+  },
+  bookMarkBox: {
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
     padding: 10,
     borderRadius: 8,
-    marginBottom: 20,
   },
   bookmarkText: {
     fontSize: 16,
@@ -279,7 +281,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   courseBox: {
-    backgroundColor: "#4b3f72",
+    backgroundColor: "rgba(128, 0, 128, 0.3)",
     width: "47%",
     height: 80,
     alignItems: "center",

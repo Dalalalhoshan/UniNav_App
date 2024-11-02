@@ -14,6 +14,7 @@ import ChatBotNavigation from "../ChatBotNavigation/ChatBotNavigation";
 import ProfessorNavigation from "../ProfessorNavigation/ProfessorNavigation";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import CommunityNavigation1 from "../CommunityNavigation/CommunityNavigation";
+import { colors } from "../../Colors";
 const Tab = createBottomTabNavigator();
 const MainNavigation = () => {
   const size = 32;
@@ -26,14 +27,15 @@ const MainNavigation = () => {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundColor: "#252423",
+          backgroundColor: colors.bg,
           height: 70,
           paddingBottom: 10,
-          shadowColor: "#000",
+          shadowColor: colors.black,
           shadowOffset: { width: 0, height: 2 },
           shadowOpacity: 0.5,
           shadowRadius: 3.84,
           elevation: 5,
+          borderTopWidth: 0,
         },
       }}
     >

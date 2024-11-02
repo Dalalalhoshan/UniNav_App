@@ -72,6 +72,7 @@ const ChatDetails = ({ route }) => {
     <View style={styles.container}>
       <KeyboardAwareScrollView enableOnAndroid={true}>
         <FlatList
+          scrollEnabled={false}
           data={comments}
           keyExtractor={(item) => item._id}
           renderItem={({ item }) => (
