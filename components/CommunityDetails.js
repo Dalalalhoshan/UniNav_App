@@ -28,6 +28,7 @@ import { getMe } from "../src/api/user"; // Import getMe function
 import AnimatedButton from "./AnimatedButton";
 import Icon from "react-native-vector-icons/FontAwesome"; // Import FontAwesome icons
 import { BASE_URL } from "../src/api";
+import { Ionicons } from "@expo/vector-icons"; // Add this import
 import Feather from "@expo/vector-icons/Feather";
 import { addBookmark, removeBookmark } from "../src/api/user";
 import FontAwesome from "@expo/vector-icons/FontAwesome"; // Import FontAwesome
@@ -245,6 +246,15 @@ const CommunityDetails = ({ route }) => {
 
   return (
     <ScrollView style={styles.container}>
+      <View style={styles.backButtonContainer}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+        >
+          <Ionicons name="arrow-back" size={24} color="#F4F4F9" />
+        </TouchableOpacity>
+      </View>
+
       <View style={styles.header}>
         <Image
           source={{
@@ -433,6 +443,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 20,
+    marginTop: 90,
   },
   image: {
     width: 60,
@@ -546,6 +557,7 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
+    marginTop: 100,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
@@ -590,6 +602,22 @@ const styles = StyleSheet.create({
   commentTimestamp: {
     color: "#bbbbbb", // Light grey text for timestamp
     marginLeft: "auto", // Align timestamp to the right
+  },
+  backButton: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    zIndex: 999, // Increased from 1 to 999 to ensure it's above everything
+    padding: 8,
+    borderRadius: 20,
+    backgroundColor: "rgba(0, 0, 0, 0)",
+  },
+  backButtonContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    zIndex: 999,
+    flex: 1,
   },
   resourceActions: {
     flexDirection: "row",

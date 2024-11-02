@@ -1,12 +1,16 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
 import ProfessorNavigation from "../../navigation/ProfessorNavigation/ProfessorNavigation";
 import ProfessorList from "../../components/ProfessorList";
-
+import UserList from "../../components/UserList";
 const Explore = () => {
   return (
     <View style={styles.container}>
-      
+      <TextInput
+        style={styles.input}
+        placeholderTextColor="#ccc"
+        placeholder="Search"
+      />
       <ProfessorList style={styles.professorList} />
       <UserList style={styles.userList} />
     </View>
@@ -36,5 +40,13 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     color: "white",
+  },
+  professorList: {
+    marginTop: 20,
+    flex: 1,
+  },
+  userList: {
+    marginTop: 20,
+    flex: 1,
   },
 });
