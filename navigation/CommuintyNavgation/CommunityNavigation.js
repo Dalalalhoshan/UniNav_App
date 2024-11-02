@@ -8,6 +8,7 @@ import Communities from "../../screens/Communities/Commuinties";
 import CreateCommunity from "../../screens/Communities/CreateCommunity";
 import ResourceList from "../../components/ResourceList";
 import ResourceDetail from "../../components/ResourceDetail";
+import AccountDetails from "../../components/AccountDetails";
 const Stack = createNativeStackNavigator();
 
 const CommunityNavigation = () => {
@@ -24,6 +25,7 @@ const CommunityNavigation = () => {
       <Stack.Screen name="CreateCommunity" component={CreateCommunity} />
       <Stack.Screen name="ResourceList" component={ResourceList} />
       <Stack.Screen name="ResourceDetail" component={ResourceDetail} />
+      <Stack.Screen name="AccountDetails" component={AccountDetails} />
     </Stack.Navigator>
   );
 };

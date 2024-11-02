@@ -286,7 +286,7 @@ const CourseDetails = ({ route }) => {
       </Text>
       <TouchableOpacity
         onPress={() =>
-          navigation.navigate("ProfessorDetail", {
+          navigation.navigate("ProfessorDetailIndex", {
             id: course?.professor?._id,
           })
         }

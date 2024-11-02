@@ -9,6 +9,8 @@ const Stack = createNativeStackNavigator();
 import AccountCard from "../../components/AccountsCard";
 import AccountDetails from "../../components/AccountDetails";
 import AccountList from "../../components/AccountsList";
+import CourseDetails from "../../components/CourseDetails";
+import ProfessorDetail from "../../components/ProfessorDetail";
 const HomeNavigation = () => {
   return (
     <Stack.Navigator
@@ -22,6 +24,8 @@ const HomeNavigation = () => {
       <Stack.Screen name="AccountCard" component={AccountCard} />
       <Stack.Screen name="AccountDetails" component={AccountDetails} />
       <Stack.Screen name="AccountList" component={AccountList} />
+      <Stack.Screen name="CourseDetails" component={CourseDetails} />
+      <Stack.Screen name="ProfessorDetailIndex" component={ProfessorDetail} />
     </Stack.Navigator>
   );
 };

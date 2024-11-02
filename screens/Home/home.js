@@ -155,9 +155,15 @@ const Home = () => {
       <Text style={styles.sectionTitle}>Rate Your Course:</Text>
       <ScrollView contentContainerStyle={styles.courseContainer}>
         {userData?.courses?.map((course, index) => (
-          <View key={index} style={styles.courseBox}>
+          <TouchableOpacity
+            key={index}
+            style={styles.courseBox}
+            onPress={() =>
+              navigation.navigate("CourseDetails", { id: course._id })
+            }
+          >
             <Text style={styles.courseText}>{course.name}</Text>
-          </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </View>

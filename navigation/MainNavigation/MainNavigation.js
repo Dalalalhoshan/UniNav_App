@@ -13,7 +13,7 @@ import CommunityNavigation from "../CommuintyNavgation/CommunityNavigation";
 import ChatBotNavigation from "../ChatBotNavigation/ChatBotNavigation";
 import ProfessorNavigation from "../ProfessorNavigation/ProfessorNavigation";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import CourseNavigation from "../CourseNavigation/CourseNavigation";
+import CommunityNavigation1 from "../CommunityNavigation/CommunityNavigation";
 const Tab = createBottomTabNavigator();
 const MainNavigation = () => {
   const size = 32;
@@ -52,7 +52,7 @@ const MainNavigation = () => {
       />
       <Tab.Screen
         name="ExploreIndex"
-        component={CommunityNavigation}
+        component={ProfessorNavigation}
         options={{
           tabBarIcon: ({ focused }) => (
             <Ionicons
