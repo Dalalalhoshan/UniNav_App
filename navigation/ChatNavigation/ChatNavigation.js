@@ -10,7 +10,11 @@ const Stack = createNativeStackNavigator();
 const ChatNavigation = () => {
   return (
     <Stack.Navigator initialRouteName="Chat">
-      <Stack.Screen name="Chat" component={Chat} />
+      <Stack.Screen
+        name="Chat"
+        component={Chat}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen name="ChatList" component={ChatList} />
       <Stack.Screen name="ChatDetails" component={ChatDetails} />
       <Stack.Screen name="ChatCard" component={ChatCard} />

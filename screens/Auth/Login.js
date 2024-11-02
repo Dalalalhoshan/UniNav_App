@@ -62,13 +62,13 @@ const Login = () => {
       </TouchableOpacity>
       <Text style={styles.orText}>Don't have an account?</Text>
       <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-        <Text style={[styles.buttonText, { color: "#f0a500" }]}>Signup</Text>
+        <Text style={[styles.buttonText, { color: "#e8b800" }]}>Signup</Text>
       </TouchableOpacity>
 
       <View style={styles.waveContainer}>
         <Svg height="100" width="100%" viewBox="0 0 1440 320">
           <Path
-            fill="#f0a500"
+            fill="#e8b800"
             d="M0,224L48,213.3C96,203,192,181,288,192C384,203,480,245,576,245.3C672,245,768,203,864,186.7C960,171,1056,181,1152,186.7C1248,192,1344,192,1392,192L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
           />
         </Svg>
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   button: {
-    backgroundColor: "#f0a500",
+    backgroundColor: "#e8b800",
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 20,

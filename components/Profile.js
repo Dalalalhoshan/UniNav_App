@@ -1,12 +1,94 @@
 import React, { useState } from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import { useQuery } from "@tanstack/react-query";
-import { getMe } from "../src/api/user";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getMe, updateUser } from "../src/api/user";
 import { BASE_URL } from "../src/api/index";
-
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import * as ImagePicker from "expo-image-picker";
 const Profile = () => {
+  const queryClient = useQueryClient();
   const [selectedOption, setSelectedOption] = useState(null);
+  const navigation = useNavigation();
+  const [userInfo, setUserInfo] = useState({});
 
+  const requestPermissions = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      alert("Sorry, we need camera roll permissions to make this work!");
+      return false;
+    }
+    return true;
+  };
+
+  const pickImage = async () => {
+    try {
+      const hasPermission = await requestPermissions();
+      if (!hasPermission) return;
+
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.8,
+      });
+
+      console.log("Image picker result:", result);
+
+      if (!result.canceled) {
+        const formData = new FormData();
+        formData.append("profileImage", {
+          uri: result.assets[0].uri,
+          type: "image/jpeg",
+          name: "profile-image.jpg",
+        });
+
+        updateUserInfo(formData, {
+          onSuccess: () => {
+            queryClient.invalidateQueries(["getMyProfile"]);
+          },
+          onError: (error) => {
+            console.error("Upload error:", error);
+            alert("Failed to upload image. Please try again.");
+          },
+        });
+      }
+    } catch (error) {
+      console.error("Error picking image:", error);
+      alert("Failed to pick image. Please try again.");
+    }
+  };
+
+  const pickBackgroundImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [16, 9],
+      quality: 0.8,
+    });
+
+    if (!result.canceled) {
+      const formData = new FormData();
+      formData.append("backgroundImage", {
+        uri: result.assets[0].uri,
+        type: "image/jpeg",
+        name: "background-image.jpg",
+      });
+
+      updateUserInfo(formData, {
+        onSuccess: () => {
+          queryClient.invalidateQueries(["getMyProfile"]);
+        },
+      });
+    }
+  };
   const {
     data: user,
     isLoading,
@@ -14,6 +96,10 @@ const Profile = () => {
   } = useQuery({
     queryKey: ["getMyProfile"],
     queryFn: getMe,
+  });
+  const { mutate: updateUserInfo } = useMutation({
+    mutationKey: ["updateUser"],
+    mutationFn: updateUser,
   });
 
   if (isLoading) {
@@ -28,9 +114,9 @@ const Profile = () => {
     switch (selectedOption) {
       case "Courses":
         return Array.isArray(user.courses) && user.courses.length > 0 ? (
-          user.courses.map((course, index) => (
+          user.courses?.map((course, index) => (
             <View key={index} style={styles.dataBox}>
-              <Text style={styles.dataText}>{course}</Text>
+              <Text style={styles.dataText}>{course?.name}</Text>
             </View>
           ))
         ) : (
@@ -87,19 +173,33 @@ const Profile = () => {
 
   return (
     <View style={styles.container}>
-      <Image
-        source={{
-          uri: `${BASE_URL}/${user.backgroundImage.replace("\\", "//")}`,
-        }}
-        style={styles.backgroundImage}
-      />
-      <View style={styles.profileSection}>
+      <View style={styles.backButtonContainer}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+        >
+          <Ionicons name="arrow-back" size={24} color="#F4F4F9" />
+        </TouchableOpacity>
+      </View>
+
+      <TouchableOpacity onPress={pickBackgroundImage} activeOpacity={0.7}>
         <Image
           source={{
-            uri: `${BASE_URL}/${user.profileImage.replace("\\", "//")}`,
+            uri: `${BASE_URL}/${user.backgroundImage?.replace("\\", "//")}`,
           }}
-          style={styles.profileImage}
+          style={styles.backgroundImage}
         />
+      </TouchableOpacity>
+
+      <View style={styles.profileSection}>
+        <TouchableOpacity onPress={pickImage} activeOpacity={0.7}>
+          <Image
+            source={{
+              uri: `${BASE_URL}/${user.profileImage.replace("\\", "//")}`,
+            }}
+            style={styles.profileImage}
+          />
+        </TouchableOpacity>
         <Text style={styles.userName}>{user?.username}</Text>
         <Text style={styles.email}>{user?.email}</Text>
       </View>
@@ -143,7 +243,7 @@ const Profile = () => {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.infoBox}>{renderSelectedOption()}</View>
+      <ScrollView style={styles.infoBox}>{renderSelectedOption()}</ScrollView>
     </View>
   );
 };
@@ -151,7 +251,7 @@ const Profile = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#1E2139",
+    backgroundColor: "#1a1a1a",
   },
   backgroundImage: {
     width: "100%",
@@ -169,7 +269,7 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     borderWidth: 4,
-    borderColor: "#2D2D44",
+    borderColor: "#4CAF50",
   },
   userName: {
     fontSize: 22,
@@ -188,7 +288,7 @@ const styles = StyleSheet.create({
   },
   menuItem: {
     padding: 15,
-    backgroundColor: "#2F334A",
+    backgroundColor: "#4b3f72",
     borderRadius: 15,
     alignItems: "center",
     width: 90,
@@ -198,7 +298,7 @@ const styles = StyleSheet.create({
     color: "#F4F4F9",
   },
   selectedItem: {
-    backgroundColor: "#5A5E85",
+    backgroundColor: "#6b5b99",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.5,
@@ -208,7 +308,7 @@ const styles = StyleSheet.create({
   infoBox: {
     marginHorizontal: 20,
     padding: 20,
-    backgroundColor: "#2B2D4A",
+    backgroundColor: "#4b3f72",
     borderRadius: 20,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
@@ -217,7 +317,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   dataBox: {
-    backgroundColor: "#3B3D5E",
+    backgroundColor: "#6b5b99",
     padding: 10,
     marginVertical: 5,
     borderRadius: 10,
@@ -240,6 +340,23 @@ const styles = StyleSheet.create({
     color: "#FF6B6B",
     textAlign: "center",
     marginTop: 20,
+  },
+  backButton: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    zIndex: 999, // Increased from 1 to 999 to ensure it's above everything
+    padding: 8,
+    margin: 20,
+    borderRadius: 20,
+    backgroundColor: "rgba(0, 0, 0, 0)",
+  },
+  backButtonContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    zIndex: 999,
+    flex: 1,
   },
 });
 

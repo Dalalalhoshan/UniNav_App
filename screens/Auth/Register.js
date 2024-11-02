@@ -38,7 +38,7 @@ const RegisterScreen = () => {
     <View style={styles.container}>
       <View style={styles.header}>{/* Add your decorative shapes here */}</View>
 
-      <Text style={styles.title}>CREATE AN ACCOUNT</Text>
+      <Text style={styles.title}>Signup</Text>
       <View style={{ gap: 10 }}>
         <View style={styles.inputContainer}>
           <FontAwesome name="user" size={20} color="white" />
@@ -96,8 +96,8 @@ const RegisterScreen = () => {
           boxStyles={styles.selectList}
           placeholder="Major"
           searchPlaceholder="Search Major"
-          inputStyles={{ color: "#ccc" }}
-          dropdownTextStyles={{ color: "#ccc" }}
+          inputStyles={{ color: "#666" }}
+          dropdownTextStyles={{ color: "#666" }}
           setSelected={(label) =>
             setUserInfo((userInfo) => ({ ...userInfo, major: label }))
           }
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   button: {
-    backgroundColor: "#f0a500",
+    backgroundColor: "#e8b800",
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 20,
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
   },
   waveContainer: {
     position: "absolute",
-    bottom: 0,
+    bottom: -30,
     left: 0,
     right: 0,
     marginTop: 50,
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
   selectList: {
     width: "100%",
     textDecorationColor: "white",
-    backgroundColor: "#454545",
+    backgroundColor: "#333",
   },
 });
 
