@@ -1,10 +1,26 @@
 import React, { useState } from "react";
-import { StyleSheet, View, TextInput } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  ScrollView,
+  FlatList,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import ProfessorList from "../../components/ProfessorList";
+import CommunityList from "../../components/CommunityList";
+import CourseList from "../../components/CourseList";
 
 const Explore = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  // Example suggestions - replace with your actual data
+  const suggestions = [
+    "Professor Smith",
+    "Professor Johnson",
+    "Professor Williams",
+    // ... more suggestions
+  ];
 
   return (
     <View style={styles.container}>
@@ -20,6 +36,7 @@ const Explore = () => {
           placeholder="Search professors..."
           placeholderTextColor="#666"
           value={searchQuery}
+          onFocus={() => setIsDropdownVisible(true)}
           onChangeText={(text) => {
             console.log(text);
             const lowerCaseSearch = text.toLowerCase();
@@ -29,7 +46,11 @@ const Explore = () => {
           autoCorrect={false}
         />
       </View>
-      <ProfessorList searchQuery={searchQuery} />
+      <ScrollView>
+        <ProfessorList searchQuery={searchQuery} />
+        <CommunityList searchQuery={searchQuery} />
+        <CourseList searchQuery={searchQuery} />
+      </ScrollView>
     </View>
   );
 };

@@ -20,33 +20,64 @@ const CommunityList = () => {
   });
 
   return (
-    // <FlatList
-    //   data={data}
-    //   renderItem={({ item }) => <CommunityCard item={item} />}
-    //   keyExtractor={(item) => item._id}
-    //   numColumns={2}
-    //   columnWrapperStyle={styles.columnWrapper}
-    // />
-    <ScrollView>
-      <View
-        style={{
-          flexDirection: "row",
-          flexWrap: "wrap",
-          justifyContent: "space-evenly",
-        }}
-      >
-        {data?.map((item) => (
-          <CommunityCard item={item} key={item._id} />
-        ))}
-      </View>
-    </ScrollView>
+    <View style={styles.container}>
+      <Text style={styles.text}>Communities</Text>
+
+      <FlatList
+        data={data}
+        renderItem={({ item }) => <CommunityCard item={item} />}
+        keyExtractor={(item) => item._id}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={[styles.container, { gap: 10 }]}
+      />
+    </View>
   );
 };
 
 export default CommunityList;
 
 const styles = StyleSheet.create({
-  columnWrapper: {
-    justifyContent: "space-between",
+  container: {
+    paddingHorizontal: 8,
+
+    paddingVertical: 8,
+  },
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#2E2E3E",
+    borderRadius: 5,
+    marginBottom: 15,
+    padding: 10,
+  },
+  searchIcon: {
+    marginRight: 10,
+    color: "#e8b800",
+  },
+  searchInput: {
+    flex: 1,
+    color: "white",
+    fontSize: 16,
+  },
+  text: {
+    color: "#e8b800", // Text color
+  },
+  button: {
+    backgroundColor: "#4b3f72", // Button color
+    padding: 10,
+    borderRadius: 5,
+    alignItems: "center",
+  },
+  input: {
+    backgroundColor: "#2E2E3E",
+    padding: 10,
+    borderRadius: 5,
+    color: "white",
+  },
+  image: {
+    width: 100,
+    height: 100,
+    borderRadius: 10,
   },
 });

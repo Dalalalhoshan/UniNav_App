@@ -15,7 +15,7 @@ const ProfessorList = () => {
     queryFn: getProfessors,
   });
   return (
-    <View>
+    <View style={styles.container}>
       <Text style={styles.text}>Professors</Text>
       <Text style={styles.text}>View All</Text>
       <FlatList
@@ -35,6 +35,7 @@ export default ProfessorList;
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 8,
+
     paddingVertical: 8,
   },
   searchContainer: {

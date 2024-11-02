@@ -36,20 +36,18 @@ const ProfessorCard = ({ item }) => {
 
 const styles = StyleSheet.create({
   cardContainer: {
-    backgroundColor: "#2E2E3E",
+    width: 300,
+    height: 350,
     borderRadius: 15,
-    margin: 8,
-    width: "47%",
     overflow: "hidden",
+    backgroundColor: "#2E2E3E",
     elevation: 3,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    margin: 8,
   },
   image: {
     width: "100%",
-    height: 200,
+    height: 250,
+
     resizeMode: "cover",
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
