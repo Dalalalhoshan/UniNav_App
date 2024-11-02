@@ -18,8 +18,7 @@ import { getMe } from "../src/api/user";
 
 const Chatbot = () => {
   const [data, setData] = useState([]);
-  const apikey = `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`;
-  const apiurl = `https://api.openai.com/v1/chat/completions`;
+
   const [textInput, setTextInput] = useState("");
 
   const { data: userData, error: userError } = useQuery({
