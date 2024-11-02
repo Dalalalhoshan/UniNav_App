@@ -168,7 +168,13 @@ const ProfessorDetail = ({ route }) => {
           }}
         >
           {professor?.courses.map((course) => (
-            <Text style={styles.course}>{course.name}</Text>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("CourseDetail", { id: course._id })
+              }
+            >
+              <Text style={styles.course}>{course.name}</Text>
+            </TouchableOpacity>
           ))}
         </View>
       </View>

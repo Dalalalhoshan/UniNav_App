@@ -178,7 +178,7 @@ const CommunityDetails = ({ route }) => {
   };
 
   const openPostDetail = (comment) => {
-    navigation.navigate("PostDetail", { comment });
+    navigation.navigate("PostDetailIndex", { comment });
   };
 
   const handleJoinLeave = () => {
@@ -317,7 +317,7 @@ const CommunityDetails = ({ route }) => {
             commentsData.map((comment) => (
               <TouchableOpacity
                 key={comment._id}
-                onPress={() => openPostDetail(comment)}
+                onPress={() => openPostDetail(comment._id)}
                 style={styles.commentContainer}
               >
                 <View style={styles.commentHeader}>
@@ -349,7 +349,15 @@ const CommunityDetails = ({ route }) => {
         <>
           {resources.length > 0 ? (
             resources.map((resource) => (
-              <View key={resource._id} style={styles.resourceContainer}>
+              <TouchableOpacity
+                key={resource._id}
+                style={styles.resourceContainer}
+                onPress={() =>
+                  navigation.navigate("ResourceDetailIndex", {
+                    id: resource._id,
+                  })
+                }
+              >
                 <Text style={styles.resourceTitle}>{resource.title}</Text>
                 <Text style={styles.resourceUrl}>{resource.url}</Text>
                 <View style={styles.resourceActions}>
@@ -394,7 +402,7 @@ const CommunityDetails = ({ route }) => {
                     )}
                   </TouchableOpacity>
                 </View>
-              </View>
+              </TouchableOpacity>
             ))
           ) : (
             <Text>No resources available for this community.</Text>

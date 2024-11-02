@@ -11,6 +11,7 @@ import AccountDetails from "../../components/AccountDetails";
 import AccountList from "../../components/AccountsList";
 import CourseDetails from "../../components/CourseDetails";
 import ProfessorDetail from "../../components/ProfessorDetail";
+import PostDetail from "../../components/PostDetail";
 const HomeNavigation = () => {
   return (
     <Stack.Navigator
@@ -26,6 +27,7 @@ const HomeNavigation = () => {
       <Stack.Screen name="AccountList" component={AccountList} />
       <Stack.Screen name="CourseDetails" component={CourseDetails} />
       <Stack.Screen name="ProfessorDetailIndex" component={ProfessorDetail} />
+      <Stack.Screen name="PostDetailIndex" component={PostDetail} />
     </Stack.Navigator>
   );
 };

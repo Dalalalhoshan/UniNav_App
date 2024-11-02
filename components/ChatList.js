@@ -33,6 +33,7 @@ const ChatList = () => {
     <View style={styles.container}>
       <Text style={styles.header}>Recent Chats</Text>
       <FlatList
+        scrollEnabled={false}
         data={userChats}
         renderItem={({ item }) => (
           <ChatCard item={item} authenticatedUserId={data._id} />
