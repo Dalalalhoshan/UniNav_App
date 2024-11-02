@@ -33,11 +33,6 @@ export default function App() {
         <QueryClientProvider client={queryClient}>
           <SafeAreaProvider>
             <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
-              {/* <Register /> */}
-              {/* <Login /> */}
-              {/* <Home /> */}
-              {/* <AuthNavigation /> */}
-              {/* <NoAuthHome /> */}
               {user ? <MainNavigation /> : <AuthNavigation />}
             </SafeAreaView>
           </SafeAreaProvider>
