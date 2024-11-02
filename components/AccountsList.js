@@ -1,42 +1,29 @@
 import React from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
 import { useQuery } from "@tanstack/react-query";
-import { getMe } from "../src/api/user";
-import ChatCard from "./ChatCard";
+import { getAllUsers } from "../src/api/user";
+import AccountCard from "./AccountsCard";
 
-const ChatList = () => {
+const AccountList = () => {
   const { data, error, isLoading } = useQuery({
-    queryKey: ["getMe"],
-    queryFn: getMe,
+    queryKey: ["getAllUsers"],
+    queryFn: getAllUsers,
   });
 
   if (isLoading) {
-    return <Text style={styles.loadingText}>Loading chats...</Text>;
+    return <Text style={styles.loadingText}>Loading accounts...</Text>;
   }
 
   if (error) {
     return <Text style={styles.errorText}>Error: {error.message}</Text>;
   }
 
-  // Map over the chats to include the last comment
-  const userChats = data.Chats.map((chat) => {
-    const lastComment = chat.comments.sort(
-      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-    )[0];
-    return {
-      ...chat,
-      lastComment: lastComment || null,
-    };
-  });
-
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Recent Chats</Text>
+      <Text style={styles.header}>Accounts</Text>
       <FlatList
-        data={userChats}
-        renderItem={({ item }) => (
-          <ChatCard item={item} authenticatedUserId={data._id} />
-        )}
+        data={data}
+        renderItem={({ item }) => <AccountCard account={item} />}
         keyExtractor={(item) => item._id}
         contentContainerStyle={styles.listContainer}
         style={styles.flatList}
@@ -47,7 +34,7 @@ const ChatList = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 8,
+    flex: 1,
     padding: 5,
     backgroundColor: "#252423",
   },
@@ -73,4 +60,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ChatList;
+export default AccountList;

@@ -3,7 +3,7 @@ import { storeToken } from "./storage";
 const signup = async (userInfo) => {
   try {
     const { data } = await instance.post("/users/signup", userInfo);
-    storeToken(data.token)
+    storeToken(data.token);
     return data;
   } catch (error) {
     console.error("Error signing up:", error.response?.data || error.message);
@@ -14,7 +14,7 @@ const signup = async (userInfo) => {
 const signin = async (userInfo) => {
   try {
     const { data } = await instance.post("/users/signin", userInfo);
-    storeToken(data.token)
+    storeToken(data.token);
     return data;
   } catch (error) {
     console.error("Error signing in:", error.response?.data || error.message);
@@ -87,6 +87,16 @@ const unfollowUser = async (id) => {
   }
 };
 
+// Function to toggle follow/unfollow a user
+const toggleFollowUser = async (userId) => {
+  try {
+    const response = await instance.post(`users/${userId}/follow`);
+    return response.data; // Return the response data
+  } catch (error) {
+    console.error("Error toggling follow user:", error);
+    throw error; // Rethrow the error for handling in the component
+  }
+};
 const getFollowers = async (id) => {
   try {
     const { data } = await instance.get(`/users/${id}/followers`);
@@ -113,6 +123,43 @@ const getFollowing = async (id) => {
   }
 };
 
+const getUserById = async (userID) => {
+  try {
+    const { data } = await instance.get(`/users/${userID}`);
+    return data;
+  } catch (error) {
+    console.error(
+      "Error fetching user by ID:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+const addBookmark = async (resourceId) => {
+  try {
+    const { data } = await instance.post(`/users/bookmarks/${resourceId}`);
+    return data;
+  } catch (error) {
+    console.error(
+      "Error adding bookmark:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+
+const removeBookmark = async (resourceId) => {
+  try {
+    const { data } = await instance.delete(`/users/bookmarks/${resourceId}`);
+    return data;
+  } catch (error) {
+    console.error(
+      "Error removing bookmark:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
 export {
   signup,
   signin,
@@ -123,4 +170,8 @@ export {
   unfollowUser,
   getFollowers,
   getFollowing,
+  getUserById,
+  addBookmark,
+  removeBookmark,
+  toggleFollowUser,
 };

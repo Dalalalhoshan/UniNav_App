@@ -155,7 +155,13 @@ const ProfessorDetail = ({ route }) => {
         data={professor?.courses}
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => (
-          <Text style={styles.course}>{item.name}</Text>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("CourseDetails", { id: item._id })
+            }
+          >
+            <Text style={styles.course}>{item.name}</Text>
+          </TouchableOpacity>
         )}
       />
       <Text style={styles.heading}>Rating: {professor?.avgRating}</Text>

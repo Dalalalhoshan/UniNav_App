@@ -1,4 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Ionicons } from "@expo/vector-icons";
 import Home from "../../screens/Home/home";
 import ChatList from "../../components/ChatList";
 import ChatDetails from "../../components/ChatDetails";
@@ -13,11 +14,64 @@ const ChatNavigation = () => {
       <Stack.Screen
         name="Chat"
         component={Chat}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+        }}
       />
-      <Stack.Screen name="ChatList" component={ChatList} />
-      <Stack.Screen name="ChatDetails" component={ChatDetails} />
-      <Stack.Screen name="ChatCard" component={ChatCard} />
+      <Stack.Screen
+        name="ChatList"
+        component={ChatList}
+        options={({ navigation }) => ({
+          headerLeft: () => (
+            <Ionicons
+              name="arrow-back"
+              size={24}
+              color="#e8b800"
+              onPress={() => navigation.goBack()}
+            />
+          ),
+          headerStyle: {
+            backgroundColor: "transparent",
+          },
+          headerTitle: "",
+        })}
+      />
+      <Stack.Screen
+        name="ChatDetails"
+        component={ChatDetails}
+        options={({ navigation }) => ({
+          headerLeft: () => (
+            <Ionicons
+              name="arrow-back"
+              size={24}
+              color="#e8b800"
+              onPress={() => navigation.goBack()}
+            />
+          ),
+          headerStyle: {
+            backgroundColor: "#121212",
+          },
+          headerTitle: "",
+        })}
+      />
+      <Stack.Screen
+        name="ChatCard"
+        component={ChatCard}
+        options={({ navigation }) => ({
+          headerLeft: () => (
+            <Ionicons
+              name="arrow-back"
+              size={24}
+              color="#e8b800"
+              onPress={() => navigation.goBack()}
+            />
+          ),
+          headerStyle: {
+            backgroundColor: "#121212",
+          },
+          headerTitle: "",
+        })}
+      />
     </Stack.Navigator>
   );
 };

@@ -10,7 +10,10 @@ import Explore from "../../screens/Explore/Explore";
 import AddResource from "../../components/AddResource";
 import ChatNavigation from "../ChatNavigation/ChatNavigation";
 import CommunityNavigation from "../CommuintyNavgation/CommunityNavigation";
+import ChatBotNavigation from "../ChatBotNavigation/ChatBotNavigation";
 import ProfessorNavigation from "../ProfessorNavigation/ProfessorNavigation";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import CourseNavigation from "../CourseNavigation/CourseNavigation";
 const Tab = createBottomTabNavigator();
 const MainNavigation = () => {
   const size = 32;
@@ -49,7 +52,7 @@ const MainNavigation = () => {
       />
       <Tab.Screen
         name="ExploreIndex"
-        component={ProfessorNavigation}
+        component={CommunityNavigation}
         options={{
           tabBarIcon: ({ focused }) => (
             <Ionicons
@@ -74,14 +77,14 @@ const MainNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="CommunitiesIndex"
-        component={CommunityNavigation}
+        name="ChatBotIndex"
+        component={ChatBotNavigation}
         options={{
           tabBarIcon: ({ focused }) => (
-            <Ionicons
-              name="people"
-              color={focused ? onSelectColor : color}
+            <MaterialCommunityIcons
+              name="robot"
               size={size}
+              color={focused ? onSelectColor : color}
             />
           ),
         }}

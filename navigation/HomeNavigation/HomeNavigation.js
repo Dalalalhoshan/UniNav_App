@@ -6,7 +6,9 @@ import Profile from "../../components/Profile";
 import ResourceDetail from "../../components/ResourceDetail";
 import CommunityDetails from "../../components/CommunityDetails";
 const Stack = createNativeStackNavigator();
-
+import AccountCard from "../../components/AccountsCard";
+import AccountDetails from "../../components/AccountDetails";
+import AccountList from "../../components/AccountsList";
 const HomeNavigation = () => {
   return (
     <Stack.Navigator
@@ -17,6 +19,9 @@ const HomeNavigation = () => {
       <Stack.Screen name="CommunityIndex" component={CommunityDetails} />
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="ResourceDetailIndex" component={ResourceDetail} />
+      <Stack.Screen name="AccountCard" component={AccountCard} />
+      <Stack.Screen name="AccountDetails" component={AccountDetails} />
+      <Stack.Screen name="AccountList" component={AccountList} />
     </Stack.Navigator>
   );
 };
