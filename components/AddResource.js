@@ -15,7 +15,9 @@ import { getAllCommunities } from "../src/api/Community";
 import { getAllCourses } from "../src/api/courses";
 import { createResource } from "../src/api/resource";
 import * as DocumentPicker from "expo-document-picker";
+import { useQueryClient } from "@tanstack/react-query";
 const AddResource = () => {
+  const queryClient = useQueryClient();
   const navigate = useNavigation();
   const [resource, setResource] = useState({});
   const { mutate: CreateResourceMutation } = useMutation({
@@ -23,6 +25,7 @@ const AddResource = () => {
     mutationFn: createResource,
     onSuccess: () => {
       navigate.goBack();
+      queryClient.invalidateQueries("getNotifications");
     },
   });
   const { data: resourceTypes } = useQuery({
