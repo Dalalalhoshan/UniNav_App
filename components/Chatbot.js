@@ -11,15 +11,15 @@ import {
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
-
+import "dotenv/config";
 import { getProfessors } from "../src/api/proffesors";
 import { getAllCourses, getCourseById } from "../src/api/courses";
 import { getMe } from "../src/api/user";
 import { getResources, getResourceById } from "../src/api/resource"; // Adjust the path as necessary
 
 const Chatbot = () => {
-  const apikey = `apikeyhere`;
-  const apiurl = `https://api.openai.com/v1/chat/completions`;
+  const apikey = process.env.API_KEY;
+  const apiurl = process.env.API_URL;
   const [data, setData] = useState([]);
   const [suggestedCourseIds, setSuggestedCourseIds] = useState([]);
   const navigation = useNavigation();

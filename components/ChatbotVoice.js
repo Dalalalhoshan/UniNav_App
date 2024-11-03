@@ -18,6 +18,7 @@ import { Audio } from "expo-av";
 import axios from "axios";
 import * as Speech from "expo-speech";
 import LottieView from "lottie-react-native";
+import "dotenv/config";
 
 export default function ChatbotVoice() {
   const [text, setText] = useState("");
@@ -110,7 +111,7 @@ export default function ChatbotVoice() {
         name: "recording.wav",
       });
       formData.append("model", "whisper-1");
-      const apikey = `apikeyhere`;
+      const apikey = process.env.API_KEY;
       const response = await axios.post(
         "https://api.openai.com/v1/audio/transcriptions",
         formData,
@@ -129,7 +130,7 @@ export default function ChatbotVoice() {
 
   const sendToGpt = async (text) => {
     try {
-      const apikey = `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`;
+      const apikey = process.env.API_KEY;
       const response = await axios.post(
         "https://api.openai.com/v1/chat/completions",
         {
