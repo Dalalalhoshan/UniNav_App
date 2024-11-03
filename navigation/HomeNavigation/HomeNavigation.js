@@ -12,6 +12,8 @@ import AccountList from "../../components/AccountsList";
 import CourseDetails from "../../components/CourseDetails";
 import ProfessorDetail from "../../components/ProfessorDetail";
 import PostDetail from "../../components/PostDetail";
+import NotificationList from "../../components/NotificationList";
+import CommunityList from "../../components/CommunityList";
 const HomeNavigation = () => {
   return (
     <Stack.Navigator
@@ -28,6 +30,12 @@ const HomeNavigation = () => {
       <Stack.Screen name="CourseDetails" component={CourseDetails} />
       <Stack.Screen name="ProfessorDetailIndex" component={ProfessorDetail} />
       <Stack.Screen name="PostDetailIndex" component={PostDetail} />
+      <Stack.Screen
+        name="NotificationList"
+        component={NotificationList}
+        options={{ gestureDirection: "vertical" }}
+      />
+      <Stack.Screen name="CommunityListIndex" component={CommunityList} />
     </Stack.Navigator>
   );
 };

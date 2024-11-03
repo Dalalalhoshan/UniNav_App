@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import { View, Text, FlatList, StyleSheet, ScrollView } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { getMe } from "../src/api/user";
 import ChatCard from "./ChatCard";
@@ -32,16 +32,18 @@ const ChatList = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Recent Chats</Text>
-      <FlatList
-        scrollEnabled={false}
-        data={userChats}
-        renderItem={({ item }) => (
-          <ChatCard item={item} authenticatedUserId={data._id} />
-        )}
-        keyExtractor={(item) => item._id}
-        contentContainerStyle={styles.listContainer}
-        style={styles.flatList}
-      />
+      <ScrollView>
+        <FlatList
+          scrollEnabled={false}
+          data={userChats}
+          renderItem={({ item }) => (
+            <ChatCard item={item} authenticatedUserId={data._id} />
+          )}
+          keyExtractor={(item) => item._id}
+          contentContainerStyle={styles.listContainer}
+          style={styles.flatList}
+        />
+      </ScrollView>
     </View>
   );
 };

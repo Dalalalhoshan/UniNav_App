@@ -15,7 +15,7 @@ const randomColor = () => {
 const CommunityCard = ({ item }) => {
   const navigation = useNavigation();
   const HandlePress = () => {
-    navigation.navigate("CommunityDetails", { id: item._id });
+    navigation.navigate("CommunityDetail", { id: item._id });
   };
 
   return (
