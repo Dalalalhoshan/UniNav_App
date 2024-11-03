@@ -12,8 +12,8 @@ import CourseCard from "./CourseCard";
 
 const CourseList = ({ searchQuery }) => {
   const { data } = useQuery({
-    queryKey: ["getAllCourses"],
-    queryFn: getAllCourses,
+    queryKey: ["getAllCourses", searchQuery],
+    queryFn: () => getAllCourses(searchQuery),
   });
 
   return (
