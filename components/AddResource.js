@@ -15,7 +15,9 @@ import { getAllCommunities } from "../src/api/Community";
 import { getAllCourses } from "../src/api/courses";
 import { createResource } from "../src/api/resource";
 import * as DocumentPicker from "expo-document-picker";
+import { useQueryClient } from "@tanstack/react-query";
 const AddResource = () => {
+  const queryClient = useQueryClient();
   const navigate = useNavigation();
   const [resource, setResource] = useState({});
   const { mutate: CreateResourceMutation } = useMutation({
@@ -23,6 +25,7 @@ const AddResource = () => {
     mutationFn: createResource,
     onSuccess: () => {
       navigate.goBack();
+      queryClient.invalidateQueries("getNotifications");
     },
   });
   const { data: resourceTypes } = useQuery({
@@ -54,7 +57,7 @@ const AddResource = () => {
     }
   };
   return (
-    <View style={{ backgroundColor: "#454545", flex: 1 }}>
+    <View style={{ backgroundColor: "#1a1a1a", flex: 1 }}>
       <View style={styles.container}>
         <Text style={styles.title}>Add Resource</Text>
 
@@ -74,6 +77,7 @@ const AddResource = () => {
           boxStyles={styles.selectList}
           inputStyles={{ color: "#ccc" }}
           dropdownTextStyles={{ color: "#ccc" }}
+          dropdownStyles={{ backgroundColor: "#333" }}
           setSelected={(value) => setResource({ ...resource, course: value })}
           data={courses?.map((course) => ({
             label: course.name,
@@ -87,6 +91,7 @@ const AddResource = () => {
           boxStyles={styles.selectList}
           inputStyles={{ color: "#ccc" }}
           dropdownTextStyles={{ color: "#ccc" }}
+          dropdownStyles={{ backgroundColor: "#333" }}
           setSelected={(value) =>
             setResource({ ...resource, community: value })
           }
@@ -102,6 +107,7 @@ const AddResource = () => {
           boxStyles={styles.selectList}
           inputStyles={{ color: "#ccc" }}
           dropdownTextStyles={{ color: "#ccc" }}
+          dropdownStyles={{ backgroundColor: "#333" }}
           setSelected={(value) => setResource({ ...resource, type: value })}
           data={resourceTypes?.map((resourceType) => ({
             label: resourceType.name,
@@ -136,7 +142,7 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: "center",
     marginTop: 50,
-    backgroundColor: "#454545",
+    backgroundColor: "#1a1a1a",
     flex: 1,
   },
   title: {
@@ -148,16 +154,21 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
     borderColor: "gray",
+    backgroundColor: "#333",
     padding: 10,
     marginBottom: 10,
     width: 350,
     borderRadius: 10,
     color: "white",
+    borderWidth: 0,
   },
   selectList: {
     width: 350,
     color: "white",
     marginBottom: 10,
+    backgroundColor: "#333",
+    borderRadius: 10,
+    borderWidth: 0,
   },
   button: {
     backgroundColor: "#e8b800",
@@ -187,12 +198,17 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   addDocumentButton: {
-    backgroundColor: "#689bf7",
+    backgroundColor: "#4b3f72",
     padding: 10,
     alignItems: "center",
     borderRadius: 20,
     width: 350,
     marginBottom: 10,
     marginTop: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
 });

@@ -2,7 +2,7 @@ import React from "react";
 import { getAllCommunities } from "../src/api/Community";
 import UserContext from "../context/UserContext";
 import { useNavigation } from "@react-navigation/native";
-import { Pressable, Text, View, Image, TouchableOpacity } from "react-native";
+import { Pressable, Text, View, Image, StyleSheet } from "react-native";
 import { BASE_URL } from "../src/api";
 const randomColor = () => {
   const colors = ["#454545", "#ff88b8", "#e8b800", "#689bf7"];
@@ -19,17 +19,8 @@ const CommunityCard = ({ item }) => {
   };
 
   return (
-    <TouchableOpacity
-      style={{
-        backgroundColor: "#e8b800",
-        // padding: 10,
-        borderRadius: 10,
-        height: 200,
-        width: "45%",
-        margin: 5,
-        // alignItems: "center",
-        // justifyContent: "center",
-      }}
+    <Pressable
+      style={styles.cardContainer}
       onPress={() => {
         HandlePress();
       }}
@@ -62,8 +53,18 @@ const CommunityCard = ({ item }) => {
           {item?.createdBy.username}
         </Text>
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 
+const styles = StyleSheet.create({
+  cardContainer: {
+    width: 150,
+    height: 150,
+    borderRadius: 10,
+    margin: 10,
+    overflow: "hidden",
+    backgroundColor: "#e8b800",
+  },
+});
 export default CommunityCard;

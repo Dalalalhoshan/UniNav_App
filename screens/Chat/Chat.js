@@ -10,36 +10,33 @@ import {
   TextInput,
 } from "react-native";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getMe, getAllUsers, getAllChats } from "../../src/api/user"; // Ensure this import is correct
+import { getMe, getAllUsers, getAllChats } from "../../src/api/user";
 import ChatList from "../../components/ChatList";
 import { BASE_URL } from "../../src/api";
 import { createChat } from "../../src/api/chat";
-
+import debounce from "lodash.debounce";
 const Chat = () => {
-  const queryClient = useQueryClient(); // Initialize query client
+  const queryClient = useQueryClient();
   const { data: userData } = useQuery({
-    queryKey: ["getMe"], // Use an array for the query key
-    queryFn: getMe, // Function to fetch the data
-  }); // Fetch current user data
-
-  const { data: chats } = useQuery({
-    queryKey: ["getAllChats"], // Query key for chats
-    queryFn: getAllChats, // Function to fetch chats
+    queryKey: ["getMe"],
+    queryFn: getMe,
   });
-
-  const [modalVisible, setModalVisible] = useState(false); // State for modal visibility
+  const { data: chats } = useQuery({
+    queryKey: ["getAllChats"],
+    queryFn: getAllChats,
+  });
+  const [modalVisible, setModalVisible] = useState(false);
   const [selectedParticipants, setSelectedParticipants] = useState([
     userData?._id,
-  ]); // Automatically add current user
-  const [chatName, setChatName] = useState(""); // State for chat name
-  const [users, setUsers] = useState([]); // State for all users
+  ]);
+  const [chatName, setChatName] = useState("");
+  const [users, setUsers] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  // Fetch all users when the modal opens
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const allUsers = await getAllUsers();
-        // Filter out the current user from the list
         const filteredUsers = allUsers.filter(
           (user) => user._id !== userData?._id
         );
@@ -48,52 +45,54 @@ const Chat = () => {
         console.error("Error fetching users:", error);
       }
     };
-
     if (modalVisible) {
       fetchUsers();
     }
   }, [modalVisible, userData]);
 
-  // Update selectedParticipants when userData changes
   useEffect(() => {
     if (userData) {
-      setSelectedParticipants([userData._id]); // Automatically add current user
+      setSelectedParticipants([userData._id]);
     }
   }, [userData]);
 
-  // Function to handle participant selection
   const handleParticipantSelect = (userId) => {
     setSelectedParticipants((prev) => {
       if (prev.includes(userId)) {
-        return prev.filter((id) => id !== userId); // Remove if already selected
+        return prev.filter((id) => id !== userId);
       } else {
-        return [...prev, userId]; // Add if not selected
+        return [...prev, userId];
       }
     });
   };
 
-  // Function to handle chat creation
   const createNewChat = async () => {
     if (selectedParticipants.length === 0) {
       console.error("No participants selected.");
-      return; // Prevent chat creation if no participants
+      return;
     }
     try {
       const chatData = {
         chatName,
         participants: selectedParticipants,
       };
-      await createChat(chatData); // Call createChat API
-      setModalVisible(false); // Close modal after creation
-      setChatName(""); // Reset chat name
-      setSelectedParticipants([userData?._id]); // Reset selected participants to include current user
-
-      // Invalidate the chats query to refetch data
+      await createChat(chatData);
+      setModalVisible(false);
+      setChatName("");
+      setSelectedParticipants([userData?._id]);
       queryClient.invalidateQueries(["getAllChats"]);
     } catch (error) {
       console.error("Error creating chat:", error);
     }
   };
+
+  const handleSearch = debounce((query) => {
+    setSearchQuery(query);
+  }, 300);
+
+  const filteredUsers = users.filter((user) =>
+    user.username.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   if (userData) {
     return (
@@ -105,7 +104,7 @@ const Chat = () => {
             <View style={styles.friendsContainer}>
               <TouchableOpacity
                 style={styles.addFriendButton}
-                onPress={() => setModalVisible(true)} // Open modal on press
+                onPress={() => setModalVisible(true)}
               >
                 <Text style={styles.addFriendText}>+</Text>
               </TouchableOpacity>
@@ -130,20 +129,15 @@ const Chat = () => {
           </View>
         </View>
         <ChatList />
-
-        {/* Chat List */}
         <FlatList
-          data={chats} // Use the fetched chats data
+          data={chats}
           keyExtractor={(item) => item._id}
           renderItem={({ item }) => (
             <View style={styles.chatCard}>
-              <Text>{item.chatName}</Text>
-              {/* You can add more details about the chat here */}
+              <Text style={styles.chatName}>{item.chatName}</Text>
             </View>
           )}
         />
-
-        {/* Modal for creating chat */}
         <Modal
           animationType="slide"
           transparent={true}
@@ -153,14 +147,20 @@ const Chat = () => {
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
               <TextInput
-                placeholder="Chat Name"
+                placeholder="Enter Chat Name"
                 value={chatName}
                 onChangeText={setChatName}
                 style={styles.input}
+                placeholderTextColor="#FFFFFF"
               />
-              {/* Render list of users to select from */}
+              <TextInput
+                placeholder="Search Users"
+                onChangeText={handleSearch}
+                style={styles.input}
+                placeholderTextColor="#FFFFFF"
+              />
               <FlatList
-                data={users}
+                data={filteredUsers}
                 keyExtractor={(item) => item._id}
                 renderItem={({ item }) => (
                   <TouchableOpacity
@@ -180,11 +180,11 @@ const Chat = () => {
                       <Text
                         style={{
                           color: selectedParticipants.includes(item._id)
-                            ? "blue"
-                            : "black",
+                            ? "#e8b800"
+                            : "#FFFFFF",
                           fontWeight: selectedParticipants.includes(item._id)
                             ? "bold"
-                            : "normal", // Bold if selected
+                            : "normal",
                         }}
                       >
                         {item.username}
@@ -192,45 +192,52 @@ const Chat = () => {
                     </View>
                   </TouchableOpacity>
                 )}
-                contentContainerStyle={styles.userListContainer} // Added userListContainer style
-                showsVerticalScrollIndicator={false} // Hide vertical scroll indicator
+                contentContainerStyle={styles.userListContainer}
+                showsVerticalScrollIndicator={false}
               />
-              <TouchableOpacity
-                onPress={createNewChat}
-                style={styles.createChatButton}
-              >
-                <Text style={{ color: "white" }}>Create Chat</Text>
-              </TouchableOpacity>
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity
+                  onPress={createNewChat}
+                  style={styles.createChatButton}
+                >
+                  <Text style={{ color: "#FFFFFF" }}>Create Chat</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => setModalVisible(false)}
+                  style={styles.cancelButton}
+                >
+                  <Text style={{ color: "#FFFFFF" }}>Cancel</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </Modal>
       </View>
     );
   }
-
   return <Text style={styles.loadingText}>Loading...</Text>;
 };
 
 export default Chat;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F0F0F0", // Light gray background for main container
+    backgroundColor: "#252423",
   },
   header: {
-    backgroundColor: "#1E1E1E", // Dark background for the header
+    backgroundColor: "#1E1E1E",
     padding: 20,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
-    marginBottom: 10, // Add margin to separate from the chat list
+    marginBottom: 10,
   },
   welcomeText: {
-    color: "#FFF", // White text for welcome message
-    fontSize: 16,
+    color: "#FFFFFF",
+    fontSize: 20,
+    fontWeight: "bold",
   },
   friendsSection: {
-    backgroundColor: "#1E1E1E", // Dark background for friends section
+    backgroundColor: "#1E1E1E",
     borderRadius: 10,
     padding: 10,
     marginTop: 10,
@@ -238,7 +245,7 @@ const styles = StyleSheet.create({
   friendsTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#FFF", // White text for title
+    color: "#FFFFFF",
     marginBottom: 10,
   },
   friendsContainer: {
@@ -246,7 +253,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   addFriendButton: {
-    backgroundColor: "#FFF", // White background for the button
+    backgroundColor: "#e8b800",
     width: 50,
     height: 50,
     borderRadius: 25,
@@ -255,7 +262,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   addFriendText: {
-    color: "#000", // Black text
+    color: "#000",
     fontSize: 24,
   },
   friendImage: {
@@ -265,46 +272,57 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   loadingText: {
-    color: "#333", // Dark text for loading
-    textAlign: "center",
-  },
-  errorText: {
-    color: "#FF0000", // Red text for error
+    color: "#FFFFFF",
     textAlign: "center",
   },
   modalContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
   },
   modalContent: {
     width: "80%",
-    backgroundColor: "#FFF", // White background for modal content
+    backgroundColor: "#1E1E1E",
     borderRadius: 10,
     padding: 20,
     alignItems: "center",
-    maxHeight: "80%", // Set a maximum height for the modal content
+    maxHeight: "80%",
   },
   input: {
     height: 40,
-    borderColor: "gray",
+    borderColor: "#454545",
     borderWidth: 1,
     marginBottom: 20,
     width: "100%",
     padding: 10,
-    backgroundColor: "#FFF", // White background for input
+    backgroundColor: "#2C2C2C",
+    color: "#FFFFFF",
+    placeholderTextColor: "#FFFFFF",
   },
   createChatButton: {
-    backgroundColor: "#1E1E1E", // Dark background for button
+    backgroundColor: "#e8b800",
     padding: 10,
     borderRadius: 5,
     alignItems: "center",
+    marginBottom: 10,
+  },
+  cancelButton: {
+    backgroundColor: "#454545",
+    padding: 10,
+    borderRadius: 5,
+    alignItems: "center",
+    marginBottom: 10,
   },
   chatCard: {
     padding: 10,
     borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+    borderBottomColor: "#454545",
+  },
+  chatName: {
+    color: "#FFFFFF",
+    fontSize: 18,
+    fontWeight: "bold",
   },
   commentUserImage: {
     width: 40,
@@ -313,19 +331,24 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   userContainer: {
-    flexDirection: "row", // Align items in a row
-    alignItems: "center", // Center items vertically
-    padding: 10, // Add padding for better touch area
-    borderBottomWidth: 1, // Add a bottom border
-    borderBottomColor: "#ccc", // Light gray border color
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#454545",
   },
   userInfo: {
-    flexDirection: "row", // Align image and text in a row
-    alignItems: "center", // Center items vertically
+    flexDirection: "row",
+    alignItems: "center",
   },
   userListContainer: {
-    paddingBottom: 20, // Add padding at the bottom for better spacing
-    backgroundColor: "#FFF", // White background for the user list
-    borderRadius: 10, // Rounded corners
+    paddingBottom: 20,
+    backgroundColor: "#1E1E1E",
+    borderRadius: 10,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
   },
 });

@@ -28,13 +28,19 @@ import { getMe } from "../src/api/user"; // Import getMe function
 import AnimatedButton from "./AnimatedButton";
 import Icon from "react-native-vector-icons/FontAwesome"; // Import FontAwesome icons
 import { BASE_URL } from "../src/api";
+import { Ionicons } from "@expo/vector-icons"; // Add this import
+import Feather from "@expo/vector-icons/Feather";
+import { addBookmark, removeBookmark } from "../src/api/user";
+import FontAwesome from "@expo/vector-icons/FontAwesome"; // Import FontAwesome
 
 const CommunityDetails = ({ route }) => {
   const { id } = route.params;
   const navigation = useNavigation();
-  const [currentView, setCurrentView] = useState("comments");
-
   const queryClient = useQueryClient();
+  const [currentView, setCurrentView] = useState("comments");
+  const [resources, setResources] = useState([]); // State to hold resources
+  const [bookmarkedResources, setBookmarkedResources] = useState({}); // State to track bookmarked resources
+
   const [newComment, setNewComment] = useState("");
   const [isJoined, setIsJoined] = useState(false);
   const [hasRequested, setHasRequested] = useState(false);
@@ -48,7 +54,7 @@ const CommunityDetails = ({ route }) => {
     const fetchUserId = async () => {
       try {
         const userData = await getMe(); // Fetch user data
-        console.log("Fetched user data:", userData); // Log the user data
+
         if (userData && userData._id) {
           setUserId(userData._id); // Set user ID only if it exists
         } else {
@@ -132,6 +138,32 @@ const CommunityDetails = ({ route }) => {
     },
   });
 
+  const handleBookmark = (resourceId) => {
+    const isBookmarked = bookmarkedResources[resourceId] || false; // Check if the resource is bookmarked
+
+    if (isBookmarked) {
+      removeBookmark(resourceId).then(() => {
+        // Update the bookmarked resources state after removal
+        setBookmarkedResources((prev) => ({
+          ...prev,
+          [resourceId]: false, // Set the resource as not bookmarked
+        }));
+        // Invalidate user queries to refresh user data
+        queryClient.invalidateQueries(["getUserById"]); // Adjust the query key as necessary
+      });
+    } else {
+      addBookmark(resourceId).then(() => {
+        // Update the bookmarked resources state after adding
+        setBookmarkedResources((prev) => ({
+          ...prev,
+          [resourceId]: true, // Set the resource as bookmarked
+        }));
+        // Invalidate user queries to refresh user data
+        queryClient.invalidateQueries(["getUserById"]); // Adjust the query key as necessary
+      });
+    }
+  };
+
   const handleCommentSubmit = () => {
     if (newComment.trim() === "") return;
 
@@ -146,7 +178,7 @@ const CommunityDetails = ({ route }) => {
   };
 
   const openPostDetail = (comment) => {
-    navigation.navigate("PostDetail", { comment });
+    navigation.navigate("PostDetailIndex", { comment });
   };
 
   const handleJoinLeave = () => {
@@ -191,12 +223,38 @@ const CommunityDetails = ({ route }) => {
     return `${Math.floor(seconds / 86400)} days ago`;
   };
 
+  // Fetch community data and resources
+  useEffect(() => {
+    // Fetch community data and set resources
+    const fetchCommunityData = async () => {
+      const communityData = await getCommunityById(id);
+      setResources(communityData.resources);
+      // Initialize bookmarkedResources state based on existing bookmarks
+      const initialBookmarks = {};
+      communityData.resources.forEach((resource) => {
+        initialBookmarks[resource._id] = resource.isBookmarked || false; // Set initial bookmark status
+      });
+      setBookmarkedResources(initialBookmarks);
+    };
+
+    fetchCommunityData();
+  }, [id]);
+
   if (!communityData) {
     return <Text style={styles.loadingText}>Loading...</Text>;
   }
 
   return (
     <ScrollView style={styles.container}>
+      <View style={styles.backButtonContainer}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+        >
+          <Ionicons name="arrow-back" size={24} color="#F4F4F9" />
+        </TouchableOpacity>
+      </View>
+
       <View style={styles.header}>
         <Image
           source={{
@@ -259,7 +317,7 @@ const CommunityDetails = ({ route }) => {
             commentsData.map((comment) => (
               <TouchableOpacity
                 key={comment._id}
-                onPress={() => openPostDetail(comment)}
+                onPress={() => openPostDetail(comment._id)}
                 style={styles.commentContainer}
               >
                 <View style={styles.commentHeader}>
@@ -289,9 +347,17 @@ const CommunityDetails = ({ route }) => {
         </>
       ) : (
         <>
-          {communityData.resources && communityData.resources?.length > 0 ? (
-            communityData.resources.map((resource) => (
-              <View key={resource._id} style={styles.resourceContainer}>
+          {resources.length > 0 ? (
+            resources.map((resource) => (
+              <TouchableOpacity
+                key={resource._id}
+                style={styles.resourceContainer}
+                onPress={() =>
+                  navigation.navigate("ResourceDetailIndex", {
+                    id: resource._id,
+                  })
+                }
+              >
                 <Text style={styles.resourceTitle}>{resource.title}</Text>
                 <Text style={styles.resourceUrl}>{resource.url}</Text>
                 <View style={styles.resourceActions}>
@@ -300,7 +366,7 @@ const CommunityDetails = ({ route }) => {
                       onPress={() => likeResourceMutation.mutate(resource._id)}
                       style={styles.voteButton}
                     >
-                      <Icon name="arrow-up" size={20} color="#28a745" />
+                      <Feather name="arrow-up" size={20} color="#28a745" />
                       <Text style={styles.voteCount}>
                         {resource.likes?.length}
                       </Text>
@@ -311,14 +377,32 @@ const CommunityDetails = ({ route }) => {
                       }
                       style={styles.voteButton}
                     >
-                      <Icon name="arrow-down" size={20} color="#dc3545" />
+                      <Feather name="arrow-down" size={20} color="#dc3545" />
                       <Text style={styles.voteCount}>
                         {resource.dislikes?.length}
                       </Text>
                     </TouchableOpacity>
                   </View>
+                  <TouchableOpacity
+                    onPress={() => handleBookmark(resource._id)}
+                    style={styles.bookmarkButton}
+                  >
+                    {bookmarkedResources[resource._id] ? (
+                      <FontAwesome
+                        name="bookmark"
+                        size={20}
+                        color="#ffd700" // Filled color for bookmarked
+                      />
+                    ) : (
+                      <Feather
+                        name="bookmark"
+                        size={20}
+                        color="#000" // Unfilled color for not bookmarked
+                      />
+                    )}
+                  </TouchableOpacity>
                 </View>
-              </View>
+              </TouchableOpacity>
             ))
           ) : (
             <Text>No resources available for this community.</Text>
@@ -367,6 +451,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 20,
+    marginTop: 90,
   },
   image: {
     width: 60,
@@ -480,6 +565,7 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
+    marginTop: 100,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
@@ -524,5 +610,39 @@ const styles = StyleSheet.create({
   commentTimestamp: {
     color: "#bbbbbb", // Light grey text for timestamp
     marginLeft: "auto", // Align timestamp to the right
+  },
+  backButton: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    zIndex: 999, // Increased from 1 to 999 to ensure it's above everything
+    padding: 8,
+    borderRadius: 20,
+    backgroundColor: "rgba(0, 0, 0, 0)",
+  },
+  backButtonContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    zIndex: 999,
+    flex: 1,
+  },
+  resourceActions: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  voteContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  voteButton: {
+    marginHorizontal: 5,
+  },
+  voteCount: {
+    marginLeft: 5,
+  },
+  bookmarkButton: {
+    padding: 10,
   },
 });

@@ -17,15 +17,17 @@ export default function App() {
   const [user, setUser] = useState(false);
   const queryClient = new QueryClient();
   const checkToken = async () => {
-    const token = await getToken();
+    const token = await tToken();
 
     if (token) {
       setUser(true);
+    } else {
+      setUser(false);
     }
   };
   useEffect(() => {
     checkToken();
-  });
+  }, []);
   console.log(user);
   return (
     <NavigationContainer>
@@ -33,11 +35,6 @@ export default function App() {
         <QueryClientProvider client={queryClient}>
           <SafeAreaProvider>
             <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
-              {/* <Register /> */}
-              {/* <Login /> */}
-              {/* <Home /> */}
-              {/* <AuthNavigation /> */}
-              {/* <NoAuthHome /> */}
               {user ? <MainNavigation /> : <AuthNavigation />}
             </SafeAreaView>
           </SafeAreaProvider>

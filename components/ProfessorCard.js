@@ -8,34 +8,63 @@ import {
 } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
+import { BASE_URL } from "../src/api";
 
 const ProfessorCard = ({ item }) => {
   const navigation = useNavigation();
-  const HandlePress = () => {
-    navigation.navigate("ProfessorDetail", { id: item._id });
-  };
+
   return (
     <Pressable
-      style={{
-        flex: 1,
-        backgroundColor: "white",
-        padding: 90,
-      }}
-      onPress={HandlePress}
+      style={styles.cardContainer}
+      onPress={() => navigation.navigate("ProfessorDetail", { id: item._id })}
     >
-      <View style={{ flex: 1, borderWidth: 1, width: 200, height: 200 }}>
-        <Image
-          source={{
-            uri: `http://192.168.0.66:10000/api/${item?.profileImage}`,
-          }}
-          style={{ width: 30, height: 60 }}
-        />
-        <Text style={{ color: "black" }}>{item?.name}</Text>
+      <Image
+        source={{
+          uri: `${BASE_URL}/${item?.profileImage.replace("\\", "//")}`,
+        }}
+        style={styles.image}
+      />
+      <View style={styles.textContainer}>
+        <Text style={styles.name}>{item?.name}</Text>
+        <Text style={styles.department}>
+          {item?.department || "Department"}
+        </Text>
       </View>
     </Pressable>
   );
 };
 
-export default ProfessorCard;
+const styles = StyleSheet.create({
+  cardContainer: {
+    width: 300,
+    height: 350,
+    borderRadius: 15,
+    overflow: "hidden",
+    backgroundColor: "#2E2E3E",
+    elevation: 3,
+    margin: 8,
+  },
+  image: {
+    width: "100%",
+    height: 250,
 
-const styles = StyleSheet.create({});
+    resizeMode: "cover",
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+  },
+  textContainer: {
+    padding: 12,
+  },
+  name: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
+    marginBottom: 4,
+  },
+  department: {
+    color: "#e8b800",
+    fontSize: 14,
+  },
+});
+
+export default ProfessorCard;

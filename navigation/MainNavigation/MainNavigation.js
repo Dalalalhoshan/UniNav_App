@@ -10,7 +10,11 @@ import Explore from "../../screens/Explore/Explore";
 import AddResource from "../../components/AddResource";
 import ChatNavigation from "../ChatNavigation/ChatNavigation";
 import CommunityNavigation from "../CommuintyNavgation/CommunityNavigation";
+import ChatBotNavigation from "../ChatBotNavigation/ChatBotNavigation";
 import ProfessorNavigation from "../ProfessorNavigation/ProfessorNavigation";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import CommunityNavigation1 from "../CommunityNavigation/CommunityNavigation";
+import { colors } from "../../Colors";
 const Tab = createBottomTabNavigator();
 const MainNavigation = () => {
   const size = 32;
@@ -23,14 +27,15 @@ const MainNavigation = () => {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundColor: "#252423",
+          backgroundColor: colors.bg,
           height: 70,
           paddingBottom: 10,
-          shadowColor: "#000",
+          shadowColor: colors.black,
           shadowOffset: { width: 0, height: 2 },
           shadowOpacity: 0.5,
           shadowRadius: 3.84,
           elevation: 5,
+          borderTopWidth: 0,
         },
       }}
     >
@@ -74,14 +79,14 @@ const MainNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="CommunitiesIndex"
-        component={CommunityNavigation}
+        name="ChatBotIndex"
+        component={ChatBotNavigation}
         options={{
           tabBarIcon: ({ focused }) => (
-            <Ionicons
-              name="people"
-              color={focused ? onSelectColor : color}
+            <MaterialCommunityIcons
+              name="robot"
               size={size}
+              color={focused ? onSelectColor : color}
             />
           ),
         }}
