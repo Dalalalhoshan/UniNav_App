@@ -26,7 +26,7 @@ const RegisterScreen = () => {
     mutationKey: ["signup"],
     mutationFn: () => signup(userInfo),
     onSuccess: () => {
-      setUser(true);
+      // setUser(true);
     },
   });
   const { data: majors } = useQuery({
@@ -34,6 +34,12 @@ const RegisterScreen = () => {
     queryFn: () => getMajors(),
   });
 
+  const handleSignup = () => {
+    register();
+    navigation.navigate("selectCourses", {
+      userInfo,
+    });
+  };
   return (
     <View style={styles.container}>
       <View style={styles.header}>{/* Add your decorative shapes here */}</View>
@@ -111,7 +117,7 @@ const RegisterScreen = () => {
       </View>
       <TouchableOpacity
         style={styles.button}
-        onPress={register}
+        onPress={handleSignup}
         disabled={isLoading}
       >
         <Text style={styles.buttonText}>Signup</Text>
@@ -205,7 +211,6 @@ const styles = StyleSheet.create({
     bottom: -30,
     left: 0,
     right: 0,
-    marginTop: 50,
   },
   selectList: {
     width: "100%",
