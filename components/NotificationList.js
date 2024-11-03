@@ -1,9 +1,20 @@
 import React from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { getNotifications } from "../src/api/Notifications";
+import { useNavigation } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
+import { colors } from "../Colors";
 
 const NotificationList = () => {
+  const navigation = useNavigation();
+
   const {
     data: notifications,
     error,
@@ -24,19 +35,23 @@ const NotificationList = () => {
   const renderItem = ({ item }) => (
     <View style={styles.notificationItem}>
       <Text style={styles.notificationMessage}>{item.message}</Text>
-      <Text style={styles.notificationDate}>
-        {new Date(item.date).toLocaleDateString()}
-      </Text>
     </View>
   );
 
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="arrow-back" size={24} color="#fff" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Notifications</Text>
+      </View>
       <FlatList
         data={notifications}
         renderItem={renderItem}
         keyExtractor={(item) => item._id}
         contentContainerStyle={styles.list}
+        style={{ backgroundColor: colors.bg }}
       />
     </View>
   );
@@ -45,22 +60,41 @@ const NotificationList = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.bg,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 15,
+    paddingTop: 45,
+    backgroundColor: colors.bg,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.yellow,
+  },
+  headerTitle: {
+    color: colors.yellow,
+    fontSize: 20,
+    marginLeft: 15,
   },
   list: {
     padding: 20,
+    backgroundColor: colors.bg,
+    gap: 10,
   },
   notificationItem: {
     padding: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+    backgroundColor: colors.purple,
+    borderRadius: 10,
   },
   notificationMessage: {
     fontSize: 16,
+    color: colors.white,
   },
   notificationDate: {
     fontSize: 12,
-    color: "#999",
+    color: colors.white,
   },
 });
 

@@ -18,7 +18,7 @@ import { useNavigation } from "@react-navigation/native";
 import UserContext from "../../context/UserContext";
 import { getCommunityById } from "../../src/api/Community";
 import { colors } from "../../Colors";
-
+import { Ionicons } from "@expo/vector-icons";
 const Home = () => {
   const { user, setUser } = useContext(UserContext);
   const [showMenu, setShowMenu] = useState(false);
@@ -74,6 +74,11 @@ const Home = () => {
       {/* Header section */}
       <View style={styles.header}>
         <View style={styles.headerContent}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("NotificationList")}
+          >
+            <Ionicons name="notifications" size={24} color={colors.yellow} />
+          </TouchableOpacity>
           <Text style={styles.welcomeText}>Welcome, {userData.username}!</Text>
           <TouchableOpacity
             style={styles.profilePictureContainer}

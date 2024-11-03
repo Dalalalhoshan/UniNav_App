@@ -1,8 +1,10 @@
 import instance from ".";
+import { storeToken } from "./storage";
 
 const signup = async (userInfo) => {
   try {
     const { data } = await instance.post("/users/signup", userInfo);
+    storeToken(data.token);
     return data;
   } catch (error) {
     console.error("Error signing up:", error.response?.data || error.message);
