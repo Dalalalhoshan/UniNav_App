@@ -21,6 +21,7 @@ const ProfessorNavigation = () => {
       <Stack.Screen name="CommunityDetail" component={CommunityDetails} />
       <Stack.Screen name="ProfessorCard" component={ProfessorCard} />
       <Stack.Screen name="CourseDetail" component={CourseDetails} />
+      <Stack.Screen name="CommunityDetails" component={CommunityDetails} />
     </Stack.Navigator>
   );
 };
