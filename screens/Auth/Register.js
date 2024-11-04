@@ -97,12 +97,13 @@ const RegisterScreen = () => {
           }
         />
       </View>
-      <View style={styles.inputContainer}>
+      <View style={styles.selectContainer}>
         <SelectList
           boxStyles={styles.selectList}
           placeholder="Major"
           searchPlaceholder="Search Major"
           inputStyles={{ color: "#666" }}
+          dropdownStyles={{ backgroundColor: "#333" }}
           dropdownTextStyles={{ color: "#666" }}
           setSelected={(label) =>
             setUserInfo((userInfo) => ({ ...userInfo, major: label }))
@@ -177,6 +178,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginVertical: 10,
     width: "90%",
+    padding: 3,
   },
   input: {
     flex: 1,
@@ -216,6 +218,10 @@ const styles = StyleSheet.create({
     width: "100%",
     textDecorationColor: "white",
     backgroundColor: "#333",
+    borderRadius: 10,
+  },
+  selectContainer: {
+    width: "90%",
   },
 });
 
