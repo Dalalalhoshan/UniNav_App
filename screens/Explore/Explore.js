@@ -6,22 +6,35 @@ import {
   ScrollView,
   FlatList,
   Text,
+  ActivityIndicator,
+  Pressable,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import ProfessorList from "../../components/ProfessorList";
 import CommunityList from "../../components/CommunityList";
 import CourseList from "../../components/CourseList";
+import { getAllUsers } from "../../src/api/user";
+import { useQuery } from "@tanstack/react-query";
+import { Portal } from "react-native-portalize";
 
 const Explore = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
 
   // Define your data source - replace this with your actual data array
-  const data = [{ title: "hello" }]; // Add your data items here
+  const { data, isLoading } = useQuery({
+    queryKey: ["getAllUsers"],
+    queryFn: () => getAllUsers(),
+  });
 
-  const filteredData = data.filter((item) =>
-    item?.title?.toLowerCase().includes(searchQuery.toLowerCase())
+  if (isLoading) {
+    return <ActivityIndicator size="large" color="#E94560" />;
+  }
+
+  const filteredData = data?.filter((item) =>
+    item?.username?.toLowerCase().includes(searchQuery.toLowerCase())
   );
+  console.log("Data:", data);
 
   return (
     <View style={styles.container}>
@@ -37,35 +50,39 @@ const Explore = () => {
           placeholder="Search professors..."
           placeholderTextColor="#666"
           value={searchQuery}
-          onFocus={() => setSelectedItem(null)}
-          onChangeText={(text) => {
-            console.log(text);
-            setSearchQuery(text);
-          }}
+          onChangeText={setSearchQuery}
           autoCapitalize="none"
           autoCorrect={false}
         />
-        {searchQuery && (
-          <View
+        {searchQuery.length > 0 && (
+          <Portal
             style={{
               position: "absolute",
-              zIndex: 9999,
+              zIndex: 2,
               top: 60,
-              width: "100%",
+              left: 0,
+              right: 0,
               backgroundColor: "white",
+              borderRadius: 5,
+              padding: 10,
+              width: "100%",
             }}
           >
-            {filteredData.map((item) => (
-              <Text>{item.title}</Text>
+            {filteredData.map((item, index) => (
+              <Pressable key={index} style={{ padding: 10 }}>
+                <Text>{item.username}</Text>
+              </Pressable>
             ))}
-          </View>
+          </Portal>
         )}
       </View>
-      <ScrollView>
-        <ProfessorList searchQuery={searchQuery} />
-        <CommunityList searchQuery={searchQuery} />
-        <CourseList searchQuery={searchQuery} />
-      </ScrollView>
+      <View style={{ flex: 1, zIndex: 1 }}>
+        <ScrollView>
+          <ProfessorList />
+          <CommunityList />
+          <CourseList />
+        </ScrollView>
+      </View>
     </View>
   );
 };

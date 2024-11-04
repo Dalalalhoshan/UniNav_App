@@ -5,6 +5,7 @@ import ChatList from "../../components/ChatList";
 import ChatDetails from "../../components/ChatDetails";
 import ChatCard from "../../components/ChatCard";
 import Chat from "../../screens/Chat/Chat";
+import { colors } from "../../Colors";
 
 const Stack = createNativeStackNavigator();
 
@@ -44,7 +45,8 @@ const ChatNavigation = () => {
             <Ionicons
               name="arrow-back"
               size={24}
-              color="#e8b800"
+              style={{ margin: 5 }}
+              color={colors.white}
               onPress={() => navigation.goBack()}
             />
           ),

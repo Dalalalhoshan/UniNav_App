@@ -19,9 +19,16 @@ const AnimatedButton = ({ isJoined, handleJoinLeave }) => {
   }, [isJoined]);
 
   return (
-    <Animated.View style={{ transform: [{ scale: scaleValue }] }}>
+    <Animated.View
+      style={{
+        transform: [{ scale: scaleValue }],
+      }}
+    >
       <TouchableOpacity
-        style={[styles.joinLeaveButton, isJoined && styles.leaveButton]}
+        style={[
+          styles.joinLeaveButton,
+          { backgroundColor: !isJoined ? "green" : "red" },
+        ]}
         onPress={handleJoinLeave}
       >
         <Text style={styles.joinLeaveButtonText}>

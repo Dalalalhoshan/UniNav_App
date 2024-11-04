@@ -15,6 +15,8 @@ import ChatList from "../../components/ChatList";
 import { BASE_URL } from "../../src/api";
 import { createChat } from "../../src/api/chat";
 import debounce from "lodash.debounce";
+import { Ionicons } from "@expo/vector-icons";
+import { colors } from "../../Colors";
 const Chat = () => {
   const queryClient = useQueryClient();
   const { data: userData } = useQuery({
@@ -106,7 +108,7 @@ const Chat = () => {
                 style={styles.addFriendButton}
                 onPress={() => setModalVisible(true)}
               >
-                <Text style={styles.addFriendText}>+</Text>
+                <Ionicons name="add" size={24} color={colors.white} />
               </TouchableOpacity>
               <FlatList
                 data={userData.following}
@@ -180,8 +182,8 @@ const Chat = () => {
                       <Text
                         style={{
                           color: selectedParticipants.includes(item._id)
-                            ? "#e8b800"
-                            : "#FFFFFF",
+                            ? colors.brightBlue
+                            : colors.white,
                           fontWeight: selectedParticipants.includes(item._id)
                             ? "bold"
                             : "normal",
@@ -200,13 +202,17 @@ const Chat = () => {
                   onPress={createNewChat}
                   style={styles.createChatButton}
                 >
-                  <Text style={{ color: "#FFFFFF" }}>Create Chat</Text>
+                  <Text style={{ color: colors.white, fontWeight: "bold" }}>
+                    Create Chat
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => setModalVisible(false)}
                   style={styles.cancelButton}
                 >
-                  <Text style={{ color: "#FFFFFF" }}>Cancel</Text>
+                  <Text style={{ color: colors.white, fontWeight: "bold" }}>
+                    Cancel
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -253,7 +259,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   addFriendButton: {
-    backgroundColor: "#e8b800",
+    backgroundColor: colors.brightBlue,
     width: 50,
     height: 50,
     borderRadius: 25,
@@ -280,6 +286,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.7)",
+    borderRadius: 20,
+    gap: 10,
   },
   modalContent: {
     width: "80%",
@@ -294,6 +302,7 @@ const styles = StyleSheet.create({
     borderColor: "#454545",
     borderWidth: 1,
     marginBottom: 20,
+    borderRadius: 10,
     width: "100%",
     padding: 10,
     backgroundColor: "#2C2C2C",
@@ -301,7 +310,7 @@ const styles = StyleSheet.create({
     placeholderTextColor: "#FFFFFF",
   },
   createChatButton: {
-    backgroundColor: "#e8b800",
+    backgroundColor: colors.brightBlue,
     padding: 10,
     borderRadius: 5,
     alignItems: "center",
@@ -334,12 +343,18 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#454545",
+    gap: 10,
+    backgroundColor: colors.bg,
+    borderColor: "#454545",
+    borderRadius: 10,
+    borderWidth: 1,
+    marginBottom: 10,
+    width: 250,
   },
   userInfo: {
     flexDirection: "row",
     alignItems: "center",
+    borderRadius: 10,
   },
   userListContainer: {
     paddingBottom: 20,
@@ -350,5 +365,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
+    marginTop: 10,
   },
 });

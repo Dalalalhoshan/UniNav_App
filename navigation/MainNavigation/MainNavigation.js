@@ -19,7 +19,7 @@ const Tab = createBottomTabNavigator();
 const MainNavigation = () => {
   const size = 32;
   const color = "#454545";
-  const onSelectColor = "#e8b800";
+  const onSelectColor = colors.brightBlue;
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -45,7 +45,7 @@ const MainNavigation = () => {
         options={{
           tabBarIcon: ({ focused }) => (
             <Ionicons
-              name="home"
+              name={focused ? "home" : "home-outline"}
               color={focused ? onSelectColor : color}
               size={size}
             />
@@ -58,7 +58,7 @@ const MainNavigation = () => {
         options={{
           tabBarIcon: ({ focused }) => (
             <Ionicons
-              name="search"
+              name={focused ? "search" : "search-outline"}
               color={focused ? onSelectColor : color}
               size={size}
             />
@@ -71,7 +71,7 @@ const MainNavigation = () => {
         options={{
           tabBarIcon: ({ focused }) => (
             <Ionicons
-              name="add"
+              name={focused ? "add" : "add-outline"}
               color={focused ? onSelectColor : color}
               size={size}
             />
@@ -84,7 +84,7 @@ const MainNavigation = () => {
         options={{
           tabBarIcon: ({ focused }) => (
             <MaterialCommunityIcons
-              name="robot"
+              name={focused ? "robot" : "robot-outline"}
               size={size}
               color={focused ? onSelectColor : color}
             />
@@ -97,7 +97,7 @@ const MainNavigation = () => {
         options={{
           tabBarIcon: ({ focused }) => (
             <Ionicons
-              name="chatbubble"
+              name={focused ? "chatbubble" : "chatbubble-outline"}
               color={focused ? onSelectColor : color}
               size={size}
             />

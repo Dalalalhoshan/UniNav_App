@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Dimensions,
+  Image,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import Svg, { Path, Circle, Rect } from "react-native-svg";
@@ -16,6 +17,7 @@ import { signup } from "../../src/api/auth";
 import { getMajors } from "../../src/api/majors";
 import UserContext from "../../context/UserContext";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { colors } from "../../Colors";
 
 const { width, height } = Dimensions.get("window");
 const RegisterScreen = () => {
@@ -42,8 +44,12 @@ const RegisterScreen = () => {
   };
   return (
     <View style={styles.container}>
-      <View style={styles.header}>{/* Add your decorative shapes here */}</View>
-
+      <View style={styles.header}>
+        <Image
+          source={require("../../assets/screenCornerE.gif")}
+          style={styles.cornerE}
+        />
+      </View>
       <Text style={styles.title}>Signup</Text>
       <View style={{ gap: 10 }}>
         <View style={styles.inputContainer}>
@@ -97,12 +103,13 @@ const RegisterScreen = () => {
           }
         />
       </View>
-      <View style={styles.inputContainer}>
+      <View style={styles.selectContainer}>
         <SelectList
           boxStyles={styles.selectList}
           placeholder="Major"
           searchPlaceholder="Search Major"
           inputStyles={{ color: "#666" }}
+          dropdownStyles={{ backgroundColor: "#333" }}
           dropdownTextStyles={{ color: "#666" }}
           setSelected={(label) =>
             setUserInfo((userInfo) => ({ ...userInfo, major: label }))
@@ -124,13 +131,15 @@ const RegisterScreen = () => {
       </TouchableOpacity>
       <Text style={styles.orText}>Already have an account?</Text>
       <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-        <Text style={[styles.buttonText, { color: "#e8b800" }]}>Signin</Text>
+        <Text style={[styles.buttonText, { color: colors.brightBlue }]}>
+          Signin
+        </Text>
       </TouchableOpacity>
 
       <View style={styles.waveContainer}>
         <Svg height="150" width="100%" viewBox="0 0 1440 320">
           <Path
-            fill="#e8b800"
+            fill={colors.brightBlue}
             d="M0,224L48,213.3C96,203,192,181,288,192C384,203,480,245,576,245.3C672,245,768,203,864,186.7C960,171,1056,181,1152,186.7C1248,192,1344,192,1392,192L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
           />
         </Svg>
@@ -154,7 +163,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: 250, // Adjusted height for full coverage
-    backgroundColor: "#4b3f72",
+    backgroundColor: colors.bg,
     borderBottomLeftRadius: 50,
     borderBottomRightRadius: 50,
   },
@@ -177,6 +186,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginVertical: 10,
     width: "90%",
+    padding: 3,
   },
   input: {
     flex: 1,
@@ -184,7 +194,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   button: {
-    backgroundColor: "#e8b800",
+    backgroundColor: colors.brightBlue,
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 20,
@@ -216,6 +226,20 @@ const styles = StyleSheet.create({
     width: "100%",
     textDecorationColor: "white",
     backgroundColor: "#333",
+    borderRadius: 10,
+  },
+  selectContainer: {
+    width: "90%",
+  },
+  cornerE: {
+    width: 100,
+    height: 100,
+    position: "absolute",
+    top: -20,
+    left: 310,
+    transform: [{ rotate: "45deg" }],
+    borderRadius: 100,
+    zIndex: 100,
   },
 });
 

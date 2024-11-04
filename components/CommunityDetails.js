@@ -32,6 +32,7 @@ import { Ionicons } from "@expo/vector-icons"; // Add this import
 import Feather from "@expo/vector-icons/Feather";
 import { addBookmark, removeBookmark } from "../src/api/user";
 import FontAwesome from "@expo/vector-icons/FontAwesome"; // Import FontAwesome
+import { colors } from "../Colors";
 
 const CommunityDetails = ({ route }) => {
   const { id } = route.params;
@@ -273,8 +274,7 @@ const CommunityDetails = ({ route }) => {
             </Text>
           </TouchableOpacity>
           <Text style={styles.followersCount}>
-            createdBy:
-            {communityData?.createdBy?.username}
+            Owner: {communityData?.createdBy?.username}
           </Text>
         </View>
         <AnimatedButton isJoined={isJoined} handleJoinLeave={handleJoinLeave} />
@@ -287,7 +287,7 @@ const CommunityDetails = ({ route }) => {
           ]}
           onPress={() => setCurrentView("comments")}
         >
-          <Text style={styles.tabButtonText}>Questions</Text>
+          <Text style={styles.tabButtonText}>Comments</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
@@ -317,7 +317,7 @@ const CommunityDetails = ({ route }) => {
             commentsData.map((comment) => (
               <TouchableOpacity
                 key={comment._id}
-                onPress={() => openPostDetail(comment._id)}
+                onPress={() => openPostDetail(comment)}
                 style={styles.commentContainer}
               >
                 <View style={styles.commentHeader}>
@@ -342,7 +342,9 @@ const CommunityDetails = ({ route }) => {
               </TouchableOpacity>
             ))
           ) : (
-            <Text>No questions available for this community.</Text>
+            <Text style={{ color: colors.white }}>
+              No comments available for this community.
+            </Text>
           )}
         </>
       ) : (
@@ -359,7 +361,7 @@ const CommunityDetails = ({ route }) => {
                 }
               >
                 <Text style={styles.resourceTitle}>{resource.title}</Text>
-                <Text style={styles.resourceUrl}>{resource.url}</Text>
+                {/* <Text style={styles.resourceUrl}>{resource.url}</Text> */}
                 <View style={styles.resourceActions}>
                   <View style={styles.voteContainer}>
                     <TouchableOpacity
@@ -391,13 +393,13 @@ const CommunityDetails = ({ route }) => {
                       <FontAwesome
                         name="bookmark"
                         size={20}
-                        color="#ffd700" // Filled color for bookmarked
+                        color={colors.brightBlue} // Filled color for bookmarked
                       />
                     ) : (
                       <Feather
                         name="bookmark"
                         size={20}
-                        color="#000" // Unfilled color for not bookmarked
+                        color={colors.white} // Unfilled color for not bookmarked
                       />
                     )}
                   </TouchableOpacity>
@@ -419,14 +421,25 @@ const CommunityDetails = ({ route }) => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Followers</Text>
-            <FlatList
-              data={communityData.followers}
-              keyExtractor={(item) => item._id}
-              renderItem={({ item }) => (
-                <Text style={styles.followerItem}>{item.username}</Text>
-              )}
-            />
+            <View style={styles.modalTitleContainer}>
+              <Text style={styles.modalTitle}>Followers</Text>
+            </View>
+            <View style={styles.modalListContainer}>
+              <FlatList
+                data={communityData.followers}
+                keyExtractor={(item) => item._id}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setModalVisible(false);
+                      navigation.navigate("AccountDetails", { id: item._id });
+                    }}
+                  >
+                    <Text style={styles.followerItem}>{item.username}</Text>
+                  </TouchableOpacity>
+                )}
+              />
+            </View>
             <TouchableOpacity
               style={styles.closeButton}
               onPress={closeFollowersModal}
@@ -445,13 +458,13 @@ export default CommunityDetails;
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    backgroundColor: "#1e1e1e", // Dark background
+    backgroundColor: colors.bg, // Dark background
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 20,
-    marginTop: 90,
+    marginTop: 50,
   },
   image: {
     width: 60,
@@ -483,7 +496,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#333333", // Dark border
   },
   activeTabButton: {
-    borderBottomColor: "#03dac6", // Highlight color
+    borderBottomColor: colors.brightBlue, // Highlight color
   },
   tabButtonText: {
     fontSize: 16,
@@ -496,11 +509,11 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingHorizontal: 15,
     marginBottom: 10,
-    backgroundColor: "#2c2c2c", // Dark input background
-    color: "#ffffff", // Light text color
+    backgroundColor: colors.bg, // Dark input background
+    color: colors.white, // Light text color
   },
   submitButton: {
-    backgroundColor: "#03dac6", // Highlight color
+    backgroundColor: colors.brightBlue, // Highlight color
     padding: 10,
     borderRadius: 20,
     alignItems: "center",
@@ -519,24 +532,26 @@ const styles = StyleSheet.create({
   commentUsername: {
     fontWeight: "bold",
     marginBottom: 5,
-    color: "#bb86fc", // Highlight color
+    color: colors.brightBlue, // Highlight color
   },
   comment: {
-    color: "#ffffff", // Light text color
+    color: colors.white, // Light text color
   },
   resourceContainer: {
     backgroundColor: "#2c2c2c", // Dark resource background
     padding: 15,
     borderRadius: 10,
     marginBottom: 10,
+    gap: 10,
   },
   resourceTitle: {
     fontWeight: "bold",
+    fontSize: 16,
     marginBottom: 5,
-    color: "#bb86fc", // Highlight color
+    color: colors.brightBlue, // Highlight color
   },
   resourceUrl: {
-    color: "#03dac6", // Highlight color
+    color: colors.brightBlue, // Highlight color
     marginBottom: 10,
   },
   resourceActions: {
@@ -554,41 +569,45 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   voteCount: {
-    color: "#ffffff", // Light text color
+    color: colors.white, // Light text color
     marginHorizontal: 5,
   },
   loadingText: {
     textAlign: "center",
     marginTop: 20,
     fontSize: 18,
-    color: "#bbbbbb", // Light grey text
+    color: colors.white, // Light grey text
   },
   modalContainer: {
     flex: 1,
     marginTop: 100,
     justifyContent: "center",
     alignItems: "center",
+    height: "100%",
     backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
   },
   modalContent: {
     width: "80%",
-    backgroundColor: "#ffffff",
+    height: 450,
+    backgroundColor: colors.bg,
     borderRadius: 10,
     padding: 20,
     alignItems: "center",
   },
   modalTitle: {
     fontSize: 20,
+    color: colors.brightBlue,
     fontWeight: "bold",
     marginBottom: 10,
   },
   followerItem: {
     fontSize: 16,
     marginVertical: 5,
+    color: colors.white,
   },
   closeButton: {
     marginTop: 20,
-    backgroundColor: "#6200ea",
+    backgroundColor: "red",
     padding: 10,
     borderRadius: 20,
   },
@@ -627,11 +646,6 @@ const styles = StyleSheet.create({
     zIndex: 999,
     flex: 1,
   },
-  resourceActions: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
   voteContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -639,10 +653,18 @@ const styles = StyleSheet.create({
   voteButton: {
     marginHorizontal: 5,
   },
-  voteCount: {
-    marginLeft: 5,
-  },
   bookmarkButton: {
     padding: 10,
+  },
+  modalTitleContainer: {
+    borderBottomWidth: 1,
+    borderBottomColor: colors.white,
+    width: "100%",
+    alignItems: "center",
+  },
+  modalListContainer: {
+    width: "100%",
+    height: "75%",
+    paddingLeft: 10,
   },
 });

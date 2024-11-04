@@ -13,11 +13,12 @@ import { getToken } from "./src/api/storage";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import NoAuthHome from "./screens/Home/NoAuthHome";
 import MainNavigation from "./navigation/MainNavigation/MainNavigation";
+import { Host } from "react-native-portalize";
 export default function App() {
   const [user, setUser] = useState(false);
   const queryClient = new QueryClient();
   const checkToken = async () => {
-    const token = await getToken();
+    const token = await deleteToken();
 
     if (token) {
       setUser(true);
@@ -30,17 +31,19 @@ export default function App() {
   }, []);
   console.log(user);
   return (
-    <NavigationContainer>
-      <UserContext.Provider value={{ user, setUser }}>
-        <QueryClientProvider client={queryClient}>
-          <SafeAreaProvider>
-            <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
-              {user ? <MainNavigation /> : <AuthNavigation />}
-            </SafeAreaView>
-          </SafeAreaProvider>
-        </QueryClientProvider>
-      </UserContext.Provider>
-    </NavigationContainer>
+    <Host>
+      <NavigationContainer>
+        <UserContext.Provider value={{ user, setUser }}>
+          <QueryClientProvider client={queryClient}>
+            <SafeAreaProvider>
+              <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
+                {user ? <MainNavigation /> : <AuthNavigation />}
+              </SafeAreaView>
+            </SafeAreaProvider>
+          </QueryClientProvider>
+        </UserContext.Provider>
+      </NavigationContainer>
+    </Host>
   );
 }
 

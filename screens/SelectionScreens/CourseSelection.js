@@ -313,7 +313,7 @@ const CourseSelectionScreen = () => {
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate("ProfessorSelectionScreen", { selectedCourses })
+            navigation.navigate("selectProfessors", { selectedCourses })
           }
         >
           <Text style={styles.buttonText}>Next</Text>

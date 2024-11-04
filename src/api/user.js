@@ -35,9 +35,11 @@ const getMe = async () => {
   }
 };
 
-const getAllUsers = async () => {
+const getAllUsers = async (searchQuery) => {
   try {
-    const { data } = await instance.get("/users/all");
+    const { data } = await instance.get("/users/all", {
+      params: { searchQuery },
+    });
     return data;
   } catch (error) {
     console.error(

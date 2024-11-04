@@ -15,7 +15,8 @@ import UserContext from "../context/UserContext";
 import { BASE_URL } from "../src/api"; // Ensure BASE_URL is correctly imported
 import { getMe } from "../src/api/auth";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-
+import { colors } from "../Colors";
+import { Ionicons } from "@expo/vector-icons";
 const ChatDetails = ({ route }) => {
   const { id } = route.params;
   const { user } = useContext(UserContext);
@@ -126,7 +127,7 @@ const ChatDetails = ({ route }) => {
           style={styles.submitButton}
           onPress={handleSendComment}
         >
-          <Text style={styles.submitButtonText}>Send</Text>
+          <Ionicons name="send" size={24} color={colors.white} />
         </TouchableOpacity>
       </View>
     </View>
@@ -136,8 +137,7 @@ const ChatDetails = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#121212", // Dark background
-    padding: 10,
+    backgroundColor: colors.bg, // Dark background
   },
   myCommentContainer: {
     alignItems: "flex-end",
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#1E1E1E", // Darker comment background
   },
   myComment: {
-    backgroundColor: "#e8b800", // Yellow for my comments
+    backgroundColor: colors.brightBlue, // Yellow for my comments
   },
   otherComment: {
     backgroundColor: "#2C2C2C", // Dark gray for others' comments
@@ -179,6 +179,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     padding: 10,
+    width: "100%",
     borderTopWidth: 1,
     borderColor: "#333333", // Dark border
     backgroundColor: "#1E1E1E", // Dark input background
@@ -194,9 +195,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#2C2C2C", // Dark input background
   },
   submitButton: {
-    backgroundColor: "#689bf7", // Highlight color
+    backgroundColor: colors.brightBlue, // Highlight color
     padding: 10,
-    borderRadius: 20,
+    borderRadius: 50,
   },
   submitButtonText: {
     color: "#FFFFFF", // Light text for button
