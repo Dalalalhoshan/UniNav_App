@@ -12,4 +12,7 @@ export const colors = {
   amber: "#FD9E00",
   darkGray: "#12161B",
   brightYellow: "#FEDA17",
+  yellow: "#e8b800",
+  cardBg: "#2E2E3E",
+  red: "#e74c3c",
 };
