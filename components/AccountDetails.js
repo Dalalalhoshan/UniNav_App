@@ -20,9 +20,11 @@ import {
 import { BASE_URL } from "../src/api/index";
 import FontAwesome from "@expo/vector-icons/FontAwesome"; // Import FontAwesome for filled bookmark
 import Feather from "@expo/vector-icons/Feather"; // Import Feather for unfilled bookmark
+import { Ionicons } from "@expo/vector-icons";
+import { colors } from "../Colors";
 
 const AccountDetails = ({ route, navigation }) => {
-  const { userID } = route.params;
+  const { id } = route.params;
   const [selectedOption, setSelectedOption] = useState(null);
   const [isFollowing, setIsFollowing] = useState(false);
   const [followers, setFollowers] = useState([]);
@@ -37,8 +39,8 @@ const AccountDetails = ({ route, navigation }) => {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["getUserById", userID],
-    queryFn: () => getUserById(userID),
+    queryKey: ["getUserById", id],
+    queryFn: () => getUserById(id),
   });
 
   const { data: currentUser, isLoading: isLoadingCurrentUser } = useQuery({
@@ -52,7 +54,7 @@ const AccountDetails = ({ route, navigation }) => {
       setIsFollowing((prev) => !prev);
     },
     onSettled: () => {
-      queryClient.invalidateQueries(["getUserById", userID]);
+      queryClient.invalidateQueries(["getUserById", id]);
     },
     onError: (error) => {
       console.error("Follow/Unfollow error:", error);
@@ -67,13 +69,13 @@ const AccountDetails = ({ route, navigation }) => {
       setIsFollowing(
         user.followers.some((follower) => follower._id === currentUserId)
       );
-      getFollowers(userID).then(setFollowers);
-      getFollowing(userID).then(setFollowing);
+      getFollowers(id).then(setFollowers);
+      getFollowing(id).then(setFollowing);
     }
   }, [user, currentUser]);
 
   const handleFollow = () => {
-    followMutation.mutate(userID);
+    followMutation.mutate(id);
   };
 
   const handleBookmark = (resourceId, isBookmarked) => {
@@ -106,9 +108,9 @@ const AccountDetails = ({ route, navigation }) => {
     setShowUserList(true);
   };
 
-  const handleUserPress = (userID) => {
+  const handleUserPress = (id) => {
     setShowUserList(false);
-    navigation.navigate("AccountDetails", { userID });
+    navigation.navigate("AccountDetails", { id });
   };
 
   const renderUserList = () => (
@@ -204,6 +206,14 @@ const AccountDetails = ({ route, navigation }) => {
 
   return (
     <ScrollView style={styles.container}>
+      <View style={styles.container}>
+        <Ionicons
+          name="arrow-back"
+          size={24}
+          color={colors.white}
+          onPress={() => navigation.goBack()}
+        />
+      </View>
       {showUserList ? (
         renderUserList()
       ) : (
@@ -296,7 +306,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: "#121212", // Dark background
+    backgroundColor: colors.bg, // Dark background
   },
   profileSection: {
     alignItems: "center",
@@ -307,13 +317,13 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     marginBottom: 16,
-    borderColor: "#e8b800", // Green border for profile image
+    borderColor: colors.brightBlue, // Green border for profile image
     borderWidth: 2,
   },
   userName: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#FFFFFF", // White text
+    color: colors.white, // White text
   },
   email: {
     fontSize: 16,
@@ -322,7 +332,7 @@ const styles = StyleSheet.create({
   followButton: {
     marginTop: 16,
     padding: 10,
-    backgroundColor: "#e8b800", // Green button
+    backgroundColor: colors.brightBlue, // Green button
     borderRadius: 8,
   },
   followButtonText: {
@@ -364,21 +374,25 @@ const styles = StyleSheet.create({
   },
   selectedItem: {
     borderBottomWidth: 2,
-    borderBottomColor: "#e8b800", // Green underline for selected item
+    borderBottomColor: colors.brightBlue, // Green underline for selected item
   },
   menuText: {
     fontSize: 16,
-    color: "#FFFFFF", // White text
+    color: colors.white, // White text
   },
   infoBox: {
     padding: 16,
     backgroundColor: "#1E1E1E", // Darker info box background
     borderRadius: 8,
+    color: colors.white,
   },
   userListContainer: {
     padding: 16,
     backgroundColor: "#1E1E1E", // Darker background for user list
     borderRadius: 8,
+  },
+  dataText: {
+    color: colors.white,
   },
 });
 

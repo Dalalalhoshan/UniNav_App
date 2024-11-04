@@ -1,6 +1,7 @@
 export const colors = {
   bg: "#1a1a1a", // Darker background color
   gray: "#808080",
+  yellow: "#e8b800",
   darkGray: "#333",
   white: "#fff",
   black: "#000",
