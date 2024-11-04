@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#1a1a1a",
   },
   documentCard: {
-    backgroundColor: "#4b3f72",
+    backgroundColor: "#0C70FF",
     borderRadius: 10,
     padding: 16,
     marginTop: 16,
