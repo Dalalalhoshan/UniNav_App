@@ -13,10 +13,10 @@ import UserContext from "../context/UserContext";
 import { useQuery } from "@tanstack/react-query";
 import CommunityCard from "./CommunityCard";
 
-const CommunityList = () => {
+const CommunityList = ({ searchQuery }) => {
   const { data } = useQuery({
-    queryKey: ["getAllCommunities"],
-    queryFn: getAllCommunities,
+    queryKey: ["getAllCommunities", searchQuery],
+    queryFn: () => getAllCommunities(searchQuery),
   });
 
   return (

@@ -9,10 +9,10 @@ import React from "react";
 import { getProfessors } from "./../src/api/proffesors";
 import { useQuery } from "@tanstack/react-query";
 import ProfessorCard from "./ProfessorCard";
-const ProfessorList = () => {
+const ProfessorList = ({ searchQuery }) => {
   const { data } = useQuery({
-    queryKey: ["getProfessors"],
-    queryFn: getProfessors,
+    queryKey: ["getProfessors", searchQuery],
+    queryFn: () => getProfessors(searchQuery),
   });
   return (
     <View style={styles.container}>

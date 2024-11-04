@@ -5,6 +5,7 @@ import {
   TextInput,
   ScrollView,
   FlatList,
+  Text,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import ProfessorList from "../../components/ProfessorList";
@@ -13,14 +14,14 @@ import CourseList from "../../components/CourseList";
 
 const Explore = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-  // Example suggestions - replace with your actual data
-  const suggestions = [
-    "Professor Smith",
-    "Professor Johnson",
-    "Professor Williams",
-    // ... more suggestions
-  ];
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  // Define your data source - replace this with your actual data array
+  const data = [{ title: "hello" }]; // Add your data items here
+
+  const filteredData = data.filter((item) =>
+    item?.title?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <View style={styles.container}>
@@ -36,15 +37,29 @@ const Explore = () => {
           placeholder="Search professors..."
           placeholderTextColor="#666"
           value={searchQuery}
-          onFocus={() => setIsDropdownVisible(true)}
+          onFocus={() => setSelectedItem(null)}
           onChangeText={(text) => {
             console.log(text);
-            const lowerCaseSearch = text.toLowerCase();
-            setSearchQuery(lowerCaseSearch);
+            setSearchQuery(text);
           }}
           autoCapitalize="none"
           autoCorrect={false}
         />
+        {searchQuery && (
+          <View
+            style={{
+              position: "absolute",
+              zIndex: 9999,
+              top: 60,
+              width: "100%",
+              backgroundColor: "white",
+            }}
+          >
+            {filteredData.map((item) => (
+              <Text>{item.title}</Text>
+            ))}
+          </View>
+        )}
       </View>
       <ScrollView>
         <ProfessorList searchQuery={searchQuery} />
@@ -63,6 +78,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   searchContainer: {
+    position: "relative",
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#2E2E3E",
