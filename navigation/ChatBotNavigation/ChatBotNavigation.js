@@ -36,10 +36,7 @@ const ChatBotNavigation = () => {
           headerTitle: "",
         })}
       />
-      <Stack.Screen name="ChatbotProfessorDetail" component={ProfessorDetail} />
-      <Stack.Screen name="ChatbotCourseDetail" component={CourseDetail} />
-      <Stack.Screen name="CourseDetails" component={CourseDetail} />
-      <Stack.Screen name="CourseCard" component={CourseCard} />
+
       <Stack.Screen
         name="ChatbotVoice"
         component={ChatbotVoice}

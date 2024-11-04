@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     borderWidth: 4,
-    borderColor: "#4CAF50",
+    borderColor: "#689bf7",
   },
   userName: {
     fontSize: 22,
@@ -288,7 +288,7 @@ const styles = StyleSheet.create({
   },
   menuItem: {
     padding: 15,
-    backgroundColor: "#4b3f72",
+    backgroundColor: "#0C70FF",
     borderRadius: 15,
     alignItems: "center",
     width: 90,
@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
     color: "#F4F4F9",
   },
   selectedItem: {
-    backgroundColor: "#6b5b99",
+    backgroundColor: "#689bf7",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.5,
@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
   infoBox: {
     marginHorizontal: 20,
     padding: 20,
-    backgroundColor: "#4b3f72",
+    backgroundColor: "#0C70FF",
     borderRadius: 20,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
@@ -317,7 +317,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   dataBox: {
-    backgroundColor: "#6b5b99",
+    backgroundColor: "#689bf7",
     padding: 10,
     marginVertical: 5,
     borderRadius: 10,

@@ -317,7 +317,7 @@ const CommunityDetails = ({ route }) => {
             commentsData.map((comment) => (
               <TouchableOpacity
                 key={comment._id}
-                onPress={() => openPostDetail(comment._id)}
+                onPress={() => openPostDetail(comment)}
                 style={styles.commentContainer}
               >
                 <View style={styles.commentHeader}>
