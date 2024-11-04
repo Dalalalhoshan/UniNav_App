@@ -429,7 +429,14 @@ const CommunityDetails = ({ route }) => {
                 data={communityData.followers}
                 keyExtractor={(item) => item._id}
                 renderItem={({ item }) => (
-                  <Text style={styles.followerItem}>{item.username}</Text>
+                  <TouchableOpacity
+                    onPress={() => {
+                      setModalVisible(false);
+                      navigation.navigate("AccountDetails", { id: item._id });
+                    }}
+                  >
+                    <Text style={styles.followerItem}>{item.username}</Text>
+                  </TouchableOpacity>
                 )}
               />
             </View>

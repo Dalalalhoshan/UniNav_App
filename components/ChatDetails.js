@@ -137,8 +137,7 @@ const ChatDetails = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#121212", // Dark background
-    padding: 10,
+    backgroundColor: colors.bg, // Dark background
   },
   myCommentContainer: {
     alignItems: "flex-end",
@@ -180,6 +179,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     padding: 10,
+    width: "100%",
     borderTopWidth: 1,
     borderColor: "#333333", // Dark border
     backgroundColor: "#1E1E1E", // Dark input background

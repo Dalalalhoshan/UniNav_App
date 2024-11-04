@@ -8,6 +8,7 @@ import CommunityList from "../../components/CommunityList";
 import CommunityDetails from "../../components/CommunityDetails";
 import ResourceDetail from "../../components/ResourceDetail";
 import PostDetail from "../../components/PostDetail";
+import AccountDetails from "../../components/AccountDetails";
 const Stack = createNativeStackNavigator();
 
 const ProfessorNavigation = () => {
@@ -27,6 +28,7 @@ const ProfessorNavigation = () => {
       <Stack.Screen name="CommunityDetails" component={CommunityDetails} />
       <Stack.Screen name="CourseDetails" component={CourseDetails} />
       <Stack.Screen name="PostDetailIndex" component={PostDetail} />
+      <Stack.Screen name="AccountDetails" component={AccountDetails} />
     </Stack.Navigator>
   );
 };
