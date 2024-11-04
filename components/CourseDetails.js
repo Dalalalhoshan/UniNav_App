@@ -160,10 +160,9 @@ const CourseDetails = ({ route }) => {
               onPress={handleCommentSubmit}
               disabled={createCommentMutation.isLoading}
             />
-            <FlatList
-              data={commentsQuery.data}
-              keyExtractor={(item) => item._id}
-              renderItem={({ item }) => (
+
+            {commentsQuery.data?.map((item) => {
+              return (
                 <View style={styles.comment}>
                   <Image
                     source={{
@@ -244,8 +243,8 @@ const CourseDetails = ({ route }) => {
                       ))}
                   </View>
                 </View>
-              )}
-            />
+              );
+            })}
           </View>
         </View>
       );
@@ -275,7 +274,7 @@ const CourseDetails = ({ route }) => {
   }
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} nestedScrollEnabled>
       <Text style={styles.name}>{course?.name || "Course Name"}</Text>
       <Text style={styles.description}>{course?.major || "major"}</Text>
       <Text style={styles.description}>
