@@ -18,7 +18,7 @@ export default function App() {
   const [user, setUser] = useState(false);
   const queryClient = new QueryClient();
   const checkToken = async () => {
-    const token = await getToken();
+    const token = await deleteToken();
 
     if (token) {
       setUser(true);

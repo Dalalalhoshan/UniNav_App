@@ -183,10 +183,9 @@ const CourseDetails = ({ route }) => {
               onPress={handleCommentSubmit}
               disabled={createCommentMutation.isLoading}
             />
-            <FlatList
-              data={commentsQuery.data}
-              keyExtractor={(item) => item._id}
-              renderItem={({ item }) => (
+
+            {commentsQuery.data?.map((item) => {
+              return (
                 <View style={styles.comment}>
                   <Image
                     source={{
@@ -274,8 +273,8 @@ const CourseDetails = ({ route }) => {
                       ))}
                   </View>
                 </View>
-              )}
-            />
+              );
+            })}
           </View>
         </View>
       );

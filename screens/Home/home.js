@@ -53,7 +53,7 @@ const Home = () => {
   const handleLogout = () => {
     deleteToken();
     setUser(false);
-    navigation.navigate("NoAuthHome");
+    // navigation.navigate("NoAuthHome");
   };
 
   const handleProfile = () => {
@@ -110,7 +110,21 @@ const Home = () => {
       </View>
 
       {/* Communities Section with Horizontal Scroll */}
-      <Text style={styles.sectionTitle}>Your Communities:</Text>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          marginTop: 10,
+          alignItems: "center",
+        }}
+      >
+        <Text style={styles.sectionTitle}>Your Communities:</Text>
+        {/* <TouchableOpacity
+          onPress={() => navigation.navigate("CommunityListIndex")}
+        >
+          <Text style={styles.viewAll}>View All</Text>
+        </TouchableOpacity> */}
+      </View>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -238,7 +252,6 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    marginTop: 20,
     marginVertical: 10,
     color: colors.white,
   },
@@ -267,11 +280,16 @@ const styles = StyleSheet.create({
   },
   bookmarkContainer: {
     gap: 10,
+    flexDirection: "row",
+    alignItems: "center",
   },
   bookMarkBox: {
     backgroundColor: colors.cardBg,
     padding: 10,
     borderRadius: 8,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
   },
   bookmarkText: {
     fontSize: 16,
@@ -283,13 +301,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   courseBox: {
-    backgroundColor: colors.cardBg,
+    backgroundColor: colors.brightBlue,
     width: "47%",
     height: 80,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 8,
-    marginBottom: 10,
+    marginBottom: 20,
   },
   courseText: {
     fontSize: 16,
@@ -304,5 +322,11 @@ const styles = StyleSheet.create({
     color: colors.red,
     textAlign: "center",
     marginTop: 20,
+  },
+  viewAll: {
+    color: colors.yellow,
+    fontSize: 16,
+    fontWeight: "bold",
+    alignSelf: "flex-end",
   },
 });
