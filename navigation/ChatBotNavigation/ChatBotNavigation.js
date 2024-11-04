@@ -21,20 +21,9 @@ const ChatBotNavigation = () => {
       <Stack.Screen
         name="Chatbot"
         component={Chatbot}
-        options={({ navigation }) => ({
-          headerLeft: () => (
-            <Ionicons
-              name="arrow-back"
-              size={24}
-              color="#e8b800"
-              onPress={() => navigation.goBack()}
-            />
-          ),
-          headerStyle: {
-            backgroundColor: "#1E1E1E",
-          },
-          headerTitle: "",
-        })}
+        options={{
+          headerShown: false,
+        }}
       />
 
       <Stack.Screen

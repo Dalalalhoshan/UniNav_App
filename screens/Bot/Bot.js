@@ -11,18 +11,20 @@ const Bot = ({ navigation }) => {
         style={styles.image}
       />
       <Text style={styles.subText}>How can I help you?</Text>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("Chatbot")}
-      >
-        <Text style={styles.buttonText}>Start New Conversation</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.button, styles.voiceButton]} // Added new style for voice button
-        onPress={() => navigation.navigate("ChatbotVoice")}
-      >
-        <Text style={styles.buttonText}>Voice Assistant</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("Chatbot")}
+        >
+          <Text style={styles.buttonText}>Start New Conversation</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.button, styles.voiceButton]}
+          onPress={() => navigation.navigate("ChatbotVoice")}
+        >
+          <Text style={styles.buttonText}>Voice Assistant</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -36,42 +38,50 @@ const styles = StyleSheet.create({
     backgroundColor: "#1E1E1E",
   },
   header: {
-    fontSize: 28,
+    fontSize: 32,
     fontWeight: "bold",
     color: "#FFF",
-    marginBottom: 5,
+    marginBottom: 10,
     textShadowColor: "#000",
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 5,
   },
   subHeader: {
-    fontSize: 18,
+    fontSize: 20,
     color: "#FFF",
-    marginBottom: 20,
+    marginBottom: 30,
   },
   image: {
-    width: 400,
-    height: 400,
-    marginBottom: 20,
+    width: 300,
+    height: 300,
+    marginBottom: 30,
   },
   subText: {
     fontSize: 18,
     textAlign: "center",
-    marginBottom: 20,
+    marginBottom: 30,
     color: "white",
   },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    paddingHorizontal: 20,
+  },
   button: {
-    backgroundColor: "#007BFF",
-    padding: 10,
-    borderRadius: 5,
-    marginBottom: 10, // Added margin to separate buttons
+    backgroundColor: "#0C70FF",
+    padding: 15,
+    borderRadius: 10,
+    marginHorizontal: 5,
+    flex: 1,
   },
   voiceButton: {
-    backgroundColor: "#28A745", // Different color for voice button
+    backgroundColor: "#689bf7",
   },
   buttonText: {
     color: "#FFF",
-    fontSize: 16,
+    fontSize: 18,
+    textAlign: "center",
   },
 });
 
