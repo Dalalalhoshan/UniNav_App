@@ -79,7 +79,7 @@ const Home = () => {
           >
             <Ionicons name="notifications" size={24} color={colors.yellow} />
           </TouchableOpacity>
-          <Text style={styles.welcomeText}>Welcome, {userData.username}!</Text>
+          <Text style={styles.welcomeText}>Hi, {userData.username}!</Text>
           <TouchableOpacity
             style={styles.profilePictureContainer}
             onPress={() => setShowMenu(!showMenu)}
@@ -183,16 +183,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#1a1a1a",
+    backgroundColor: "#181617",
   },
-  // overlay: {
-  //   ...StyleSheet.absoluteFillObject,
-  //   backgroundColor: "rgba(0, 0, 0, 0.3)",
-  // },
+
   header: {
     width: "100%",
     padding: 20,
-    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    backgroundColor: colors.cardBg,
     borderRadius: 30,
     justifyContent: "center", // Aligns content to the top
   },
@@ -214,13 +211,13 @@ const styles = StyleSheet.create({
     height: 80,
     borderRadius: 100,
     borderWidth: 2,
-    borderColor: "#4CAF50",
+    borderColor: colors.black,
   },
   dropdownMenu: {
     position: "absolute",
     top: 100, // Position dropdown just below the profile picture
     right: 50,
-    backgroundColor: "#333",
+    backgroundColor: colors.cardBg,
     borderRadius: 8,
     width: 120,
     paddingVertical: 5,
@@ -235,7 +232,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   menuText: {
-    color: "#fff",
+    color: colors.white,
     fontSize: 16,
   },
   sectionTitle: {
@@ -243,7 +240,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 20,
     marginVertical: 10,
-    color: colors.yellow,
+    color: colors.white,
   },
   communityContainer: {
     flexDirection: "row",
@@ -253,7 +250,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     height: 100,
     padding: 10,
-    backgroundColor: "#4CAF50",
+    backgroundColor: colors.black,
     borderRadius: 100,
     alignItems: "center",
     justifyContent: "center",
@@ -265,20 +262,20 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   communityText: {
-    color: "#fff",
+    color: colors.white,
     fontSize: 14,
   },
   bookmarkContainer: {
     gap: 10,
   },
   bookMarkBox: {
-    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    backgroundColor: colors.cardBg,
     padding: 10,
     borderRadius: 8,
   },
   bookmarkText: {
     fontSize: 16,
-    color: "#fff",
+    color: colors.white,
   },
   courseContainer: {
     flexDirection: "row",
@@ -286,7 +283,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   courseBox: {
-    backgroundColor: "rgba(128, 0, 128, 0.3)",
+    backgroundColor: colors.cardBg,
     width: "47%",
     height: 80,
     alignItems: "center",
@@ -296,15 +293,15 @@ const styles = StyleSheet.create({
   },
   courseText: {
     fontSize: 16,
-    color: "#fff",
+    color: colors.white,
   },
   loadingText: {
-    color: "#fff",
+    color: colors.white,
     textAlign: "center",
     marginTop: 20,
   },
   errorText: {
-    color: "#e74c3c",
+    color: colors.red,
     textAlign: "center",
     marginTop: 20,
   },

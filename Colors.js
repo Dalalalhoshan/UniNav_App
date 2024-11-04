@@ -1,9 +1,10 @@
 export const colors = {
-  bg: "#1a1a1a",
-  yellow: "#e8b800",
+  bg: "#1a1a1a", // Darker background color
+  gray: "#808080",
+  darkGray: "#333",
   white: "#fff",
-  black: "#000",
-  purple: "#4b3f72",
-  blue: "#689bf7",
-  lightBlue: "#e6f7ff",
+  cardBg: "#2E2E3E",
+  red: "#e74c3c",
+  blue: "#007BFF",
+  brightBlue: "#0C70FF",
 };
