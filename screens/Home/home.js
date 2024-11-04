@@ -204,11 +204,13 @@ const styles = StyleSheet.create({
   //   backgroundColor: "rgba(0, 0, 0, 0.3)",
   // },
   header: {
+    position: "relative",
     width: "100%",
     padding: 20,
     backgroundColor: "rgba(0, 0, 0, 0.3)",
     borderRadius: 30,
     justifyContent: "center", // Aligns content to the top
+    zIndex: 100,
   },
   headerContent: {
     flexDirection: "row",
@@ -232,6 +234,7 @@ const styles = StyleSheet.create({
   },
   dropdownMenu: {
     position: "absolute",
+    zIndex: 1000000,
     top: 100, // Position dropdown just below the profile picture
     right: 50,
     backgroundColor: "#333",

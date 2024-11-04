@@ -71,12 +71,13 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
     borderBottomWidth: 1,
-    borderBottomColor: colors.yellow,
+    borderBottomColor: colors.white,
   },
   headerTitle: {
-    color: colors.yellow,
+    color: colors.white,
     fontSize: 20,
     marginLeft: 15,
+    fontWeight: "bold",
   },
   list: {
     padding: 20,
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
   },
   notificationItem: {
     padding: 15,
-    backgroundColor: colors.purple,
+    backgroundColor: colors.brightBlue,
     borderRadius: 10,
   },
   notificationMessage: {
