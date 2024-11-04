@@ -53,7 +53,7 @@ const Home = () => {
   const handleLogout = () => {
     deleteToken();
     setUser(false);
-    navigation.navigate("NoAuthHome");
+    // navigation.navigate("NoAuthHome");
   };
 
   const handleProfile = () => {
@@ -110,7 +110,21 @@ const Home = () => {
       </View>
 
       {/* Communities Section with Horizontal Scroll */}
-      <Text style={styles.sectionTitle}>Your Communities:</Text>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          marginTop: 10,
+          alignItems: "center",
+        }}
+      >
+        <Text style={styles.sectionTitle}>Your Communities:</Text>
+        {/* <TouchableOpacity
+          onPress={() => navigation.navigate("CommunityListIndex")}
+        >
+          <Text style={styles.viewAll}>View All</Text>
+        </TouchableOpacity> */}
+      </View>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -241,7 +255,6 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    marginTop: 20,
     marginVertical: 10,
     color: colors.yellow,
   },
@@ -307,5 +320,11 @@ const styles = StyleSheet.create({
     color: "#e74c3c",
     textAlign: "center",
     marginTop: 20,
+  },
+  viewAll: {
+    color: colors.yellow,
+    fontSize: 16,
+    fontWeight: "bold",
+    alignSelf: "flex-end",
   },
 });
