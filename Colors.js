@@ -6,4 +6,9 @@ export const colors = {
   purple: "#4b3f72",
   blue: "#689bf7",
   lightBlue: "#e6f7ff",
+  orange: "#FE5900",
+  brightBlue: "#0C70FF",
+  amber: "#FD9E00",
+  darkGray: "#12161B",
+  brightYellow: "#FEDA17",
 };

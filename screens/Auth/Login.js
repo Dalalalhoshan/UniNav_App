@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Dimensions,
+  Image,
 } from "react-native";
 import UserContext from "../../context/UserContext";
 import { signin } from "../../src/api/user";
@@ -14,6 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 import { FontAwesome } from "@expo/vector-icons";
 import Svg, { Circle, Rect, Path } from "react-native-svg";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { colors } from "../../Colors";
 const Login = () => {
   const navigation = useNavigation();
   const [userInfo, setUserInfo] = useState({});
@@ -28,7 +30,12 @@ const Login = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>{/* Add your decorative shapes here */}</View>
+      <View style={styles.header}>
+        <Image
+          source={require("../../assets/screenCornerE.gif")}
+          style={styles.cornerE}
+        />
+      </View>
 
       <Text style={styles.title}>Signin</Text>
       <View style={{ gap: 10 }}>
@@ -62,13 +69,15 @@ const Login = () => {
       </TouchableOpacity>
       <Text style={styles.orText}>Don't have an account?</Text>
       <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-        <Text style={[styles.buttonText, { color: "#e8b800" }]}>Signup</Text>
+        <Text style={[styles.buttonText, { color: colors.brightBlue }]}>
+          Signup
+        </Text>
       </TouchableOpacity>
 
       <View style={styles.waveContainer}>
         <Svg height="100" width="100%" viewBox="0 0 1440 320">
           <Path
-            fill="#e8b800"
+            fill={colors.brightBlue}
             d="M0,224L48,213.3C96,203,192,181,288,192C384,203,480,245,576,245.3C672,245,768,203,864,186.7C960,171,1056,181,1152,186.7C1248,192,1344,192,1392,192L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
           />
         </Svg>
@@ -93,7 +102,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: 250, // Adjusted height for full coverage
-    backgroundColor: "#4b3f72",
+    backgroundColor: colors.bg,
     borderBottomLeftRadius: 50,
     borderBottomRightRadius: 50,
   },
@@ -103,10 +112,10 @@ const styles = StyleSheet.create({
     left: "40%",
   },
   title: {
-    color: "white",
-    fontSize: 24,
+    color: colors.white,
+    fontSize: 30,
     fontWeight: "bold",
-    marginBottom: 20,
+    top: -90,
   },
   inputContainer: {
     flexDirection: "row",
@@ -116,6 +125,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginVertical: 10,
     width: "90%",
+    padding: 3,
   },
   input: {
     flex: 1,
@@ -123,19 +133,23 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   button: {
-    backgroundColor: "#e8b800",
-    borderRadius: 10,
+    backgroundColor: colors.brightBlue,
+    borderRadius: 40,
     paddingVertical: 10,
     paddingHorizontal: 20,
+    width: "90%",
+    alignItems: "center",
+    justifyContent: "center",
     marginVertical: 20,
   },
   buttonText: {
-    color: "white",
+    color: colors.white,
     fontSize: 18,
     fontWeight: "bold",
+    marginBottom: 5,
   },
   orText: {
-    color: "white",
+    color: colors.white,
     marginVertical: 10,
   },
   socialContainer: {
@@ -150,6 +164,14 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
+  },
+  cornerE: {
+    width: 100,
+    height: 100,
+    transform: [{ rotate: "-45deg" }],
+    borderRadius: 100,
+    bottom: 25,
+    right: 25,
   },
 });
 

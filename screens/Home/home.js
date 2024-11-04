@@ -299,13 +299,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   courseBox: {
-    backgroundColor: "rgba(128, 0, 128, 0.3)",
+    backgroundColor: colors.brightBlue,
     width: "47%",
     height: 80,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 8,
-    marginBottom: 10,
+    marginBottom: 20,
   },
   courseText: {
     fontSize: 16,
