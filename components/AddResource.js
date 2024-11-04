@@ -16,6 +16,7 @@ import { getAllCourses } from "../src/api/courses";
 import { createResource } from "../src/api/resource";
 import * as DocumentPicker from "expo-document-picker";
 import { useQueryClient } from "@tanstack/react-query";
+import { colors } from "../Colors";
 const AddResource = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigation();
@@ -77,7 +78,7 @@ const AddResource = () => {
           boxStyles={styles.selectList}
           inputStyles={{ color: "#ccc" }}
           dropdownTextStyles={{ color: "#ccc" }}
-          dropdownStyles={{ backgroundColor: "#333" }}
+          dropdownStyles={{ backgroundColor: "#333", marginBottom: 10 }}
           setSelected={(value) => setResource({ ...resource, course: value })}
           data={courses?.map((course) => ({
             label: course.name,
@@ -91,7 +92,7 @@ const AddResource = () => {
           boxStyles={styles.selectList}
           inputStyles={{ color: "#ccc" }}
           dropdownTextStyles={{ color: "#ccc" }}
-          dropdownStyles={{ backgroundColor: "#333" }}
+          dropdownStyles={{ backgroundColor: "#333", marginBottom: 10 }}
           setSelected={(value) =>
             setResource({ ...resource, community: value })
           }
@@ -107,7 +108,7 @@ const AddResource = () => {
           boxStyles={styles.selectList}
           inputStyles={{ color: "#ccc" }}
           dropdownTextStyles={{ color: "#ccc" }}
-          dropdownStyles={{ backgroundColor: "#333" }}
+          dropdownStyles={{ backgroundColor: "#333", marginBottom: 10 }}
           setSelected={(value) => setResource({ ...resource, type: value })}
           data={resourceTypes?.map((resourceType) => ({
             label: resourceType.name,
@@ -155,12 +156,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "gray",
     backgroundColor: "#333",
-    padding: 12,
+    paddingTop: 12,
+    paddingBottom: 12,
     marginBottom: 10,
     width: 350,
     borderRadius: 10,
     color: "white",
     borderWidth: 0,
+    paddingLeft: 17,
   },
   selectList: {
     width: 350,
@@ -171,7 +174,7 @@ const styles = StyleSheet.create({
     borderWidth: 0,
   },
   button: {
-    backgroundColor: "#e8b800",
+    backgroundColor: colors.brightBlue,
     padding: 10,
     borderRadius: 20,
     height: 50,
@@ -198,10 +201,10 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   addDocumentButton: {
-    backgroundColor: "#4b3f72",
+    backgroundColor: colors.yellow,
     padding: 10,
     alignItems: "center",
-    borderRadius: 20,
+    borderRadius: 10,
     width: 350,
     marginBottom: 10,
     marginTop: 10,

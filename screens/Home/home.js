@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginVertical: 10,
-    color: colors.yellow,
+    color: colors.white,
   },
   communityContainer: {
     flexDirection: "row",
@@ -283,11 +283,16 @@ const styles = StyleSheet.create({
   },
   bookmarkContainer: {
     gap: 10,
+    flexDirection: "row",
+    alignItems: "center",
   },
   bookMarkBox: {
     backgroundColor: "rgba(0, 0, 0, 0.3)",
     padding: 10,
     borderRadius: 8,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
   },
   bookmarkText: {
     fontSize: 16,

@@ -11,6 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getResourceById } from "../src/api/resource";
 import { BASE_URL } from "../src/api";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { colors } from "../Colors";
 const ResourceDetail = () => {
   const { id } = useRoute().params;
   const { data } = useQuery({
@@ -21,18 +22,10 @@ const ResourceDetail = () => {
   const handleOpenUrl = async () => {
     await Linking.openURL(BASE_URL + data?.url);
   };
+  console.log(data);
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <View style={styles.backButtonContainer}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-        >
-          <Ionicons name="arrow-back" size={24} color="#F4F4F9" />
-        </TouchableOpacity>
-      </View>
-
       <View style={styles.documentCard}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>{data?.title}</Text>
@@ -42,8 +35,14 @@ const ResourceDetail = () => {
         </View>
 
         <View style={styles.metadataContainer}>
-          <Text style={styles.metadataLabel}>Type:</Text>
-          <Text style={styles.metadataValue}>{data?.resourceType?.name}</Text>
+          {data?.resourceType?.name && (
+            <>
+              <Text style={styles.metadataLabel}>Type:</Text>
+              <Text style={styles.metadataValue}>
+                {data?.resourceType?.name}
+              </Text>
+            </>
+          )}
 
           <Text style={styles.metadataLabel}>Community:</Text>
           <Text style={styles.metadataValue}>{data?.community?.name}</Text>
@@ -51,8 +50,12 @@ const ResourceDetail = () => {
           <Text style={styles.metadataLabel}>Course:</Text>
           <Text style={styles.metadataValue}>{data?.course?.name}</Text>
 
-          <Text style={styles.metadataLabel}>Major:</Text>
-          <Text style={styles.metadataValue}>{data?.major?.name}</Text>
+          {data?.major?.name && (
+            <>
+              <Text style={styles.metadataLabel}>Major:</Text>
+              <Text style={styles.metadataValue}>{data?.major?.name}</Text>
+            </>
+          )}
         </View>
       </View>
     </View>
@@ -68,7 +71,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#1a1a1a",
   },
   documentCard: {
-    backgroundColor: "#4b3f72",
+    backgroundColor: colors.brightBlue,
     borderRadius: 10,
     padding: 16,
     marginTop: 16,
@@ -109,5 +112,15 @@ const styles = StyleSheet.create({
   },
   backButtonContainer: {
     marginBottom: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+    gap: 10,
+  },
+  resourceText: {
+    textAlign: "center",
+    color: colors.white,
+    fontSize: 20,
+    fontWeight: "bold",
   },
 });
