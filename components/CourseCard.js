@@ -8,6 +8,8 @@ import {
 } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
+import { BASE_URL } from "../src/api";
+import { colors } from "../Colors";
 
 const CourseCard = ({ item }) => {
   const navigation = useNavigation();
@@ -18,12 +20,6 @@ const CourseCard = ({ item }) => {
   return (
     <Pressable style={styles.card} onPress={handlePress}>
       <View style={styles.cardContent}>
-        <Image
-          source={{
-            uri: `http://192.168.0.66:10000/api/${item?.image}`,
-          }}
-          style={styles.image}
-        />
         <Text style={styles.name}>{item?.name}</Text>
       </View>
     </Pressable>
@@ -34,20 +30,20 @@ export default CourseCard;
 
 const styles = StyleSheet.create({
   card: {
-    flex: 1,
-    backgroundColor: "white",
+    width: 150,
+    height: 150,
+    backgroundColor: "#0C70FF",
     padding: 16,
     margin: 8,
     borderRadius: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 2,
   },
   cardContent: {
     flex: 1,
     alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+
+    height: "100%",
   },
   image: {
     width: 100,
@@ -56,8 +52,9 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   name: {
-    color: "black",
-    fontSize: 16,
+    color: "white",
+    fontSize: 15,
     fontWeight: "bold",
+    textAlign: "center",
   },
 });

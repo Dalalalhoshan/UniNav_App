@@ -8,6 +8,7 @@ import {
   Text,
   ActivityIndicator,
   Pressable,
+  TouchableOpacity,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import ProfessorList from "../../components/ProfessorList";
@@ -16,8 +17,11 @@ import CourseList from "../../components/CourseList";
 import { getAllUsers } from "../../src/api/user";
 import { useQuery } from "@tanstack/react-query";
 import { Portal } from "react-native-portalize";
+import NAVIGATION from "../../navigation";
+import { useNavigation } from "@react-navigation/native";
 
 const Explore = () => {
+  const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
 
@@ -54,26 +58,28 @@ const Explore = () => {
           autoCapitalize="none"
           autoCorrect={false}
         />
-        {searchQuery.length > 0 && (
-          <Portal
-            style={{
-              position: "absolute",
-              zIndex: 2,
-              top: 60,
-              left: 0,
-              right: 0,
-              backgroundColor: "white",
-              borderRadius: 5,
-              padding: 10,
-              width: "100%",
-            }}
-          >
+        {searchQuery.length > 0 && filteredData.length > 0 && (
+          <View style={styles.resultsContainer}>
             {filteredData.map((item, index) => (
-              <Pressable key={index} style={{ padding: 10 }}>
-                <Text>{item.username}</Text>
-              </Pressable>
+              <TouchableOpacity
+                key={index}
+                style={styles.resultItem}
+                onPress={() => {
+                  setSelectedItem(item);
+                  navigation.navigate(NAVIGATION.HOME.INDEX, {
+                    screen: "AccountDetails",
+                    params: {
+                      userID: item._id,
+                    },
+                  });
+
+                  console.log(item._id);
+                }}
+              >
+                <Text style={styles.resultText}>{item.username}</Text>
+              </TouchableOpacity>
             ))}
-          </Portal>
+          </View>
         )}
       </View>
       <View style={{ flex: 1, zIndex: 1 }}>
@@ -86,7 +92,6 @@ const Explore = () => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -108,6 +113,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
+    zIndex: 2, // Ensure the search bar and results are on top
   },
   searchIcon: {
     marginRight: 10,
@@ -119,26 +125,24 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft: 8,
   },
-  text: {
-    color: "#e8b800", // Text color
-  },
-  button: {
-    backgroundColor: "#4b3f72", // Button color
-    padding: 10,
-    borderRadius: 5,
-    alignItems: "center",
-  },
-  input: {
+  resultsContainer: {
+    position: "absolute",
+    top: 60,
+    left: 0,
+    right: 0,
     backgroundColor: "#2E2E3E",
-    padding: 10,
     borderRadius: 5,
+    zIndex: 3,
+    maxHeight: 200,
+    overflow: "hidden",
+  },
+  resultItem: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#444",
+  },
+  resultText: {
     color: "white",
   },
-  image: {
-    width: 100,
-    height: 100,
-    borderRadius: 10,
-  },
 });
-
 export default Explore;

@@ -9,15 +9,15 @@ import React from "react";
 import { getProfessors } from "./../src/api/proffesors";
 import { useQuery } from "@tanstack/react-query";
 import ProfessorCard from "./ProfessorCard";
-const ProfessorList = ({ searchQuery }) => {
+import { colors } from "../Colors";
+const ProfessorList = () => {
   const { data } = useQuery({
-    queryKey: ["getProfessors", searchQuery],
-    queryFn: () => getProfessors(searchQuery),
+    queryKey: ["getProfessors"],
+    queryFn: getProfessors,
   });
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Professors</Text>
-      <Text style={styles.text}>View All</Text>
       <FlatList
         data={data}
         renderItem={({ item }) => <ProfessorCard item={item} />}
@@ -56,10 +56,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   text: {
-    color: "#e8b800", // Text color
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 16,
+    marginBottom: 10,
   },
   button: {
-    backgroundColor: "#4b3f72", // Button color
+    backgroundColor: colors.brightBlue, // Button color
     padding: 10,
     borderRadius: 5,
     alignItems: "center",
