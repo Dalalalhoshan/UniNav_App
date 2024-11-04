@@ -18,7 +18,13 @@ import { Audio } from "expo-av";
 import axios from "axios";
 import * as Speech from "expo-speech";
 import LottieView from "lottie-react-native";
-
+import { getProfessors } from "../src/api/proffesors";
+import { getAllCourses, getCourseById } from "../src/api/courses";
+import { getMe } from "../src/api/user";
+import { getResources, getResourceById } from "../src/api/resource"; // Adjust the path as necessary
+import { getAllCommunities } from "../src/api/Community";
+import { useQuery } from "@tanstack/react-query";
+import loadingGIF from "../assets/Juzijunsouls.gif";
 export default function ChatbotVoice() {
   const [text, setText] = useState("");
   const [isRecording, setIsRecording] = useState(false);
@@ -65,7 +71,38 @@ export default function ChatbotVoice() {
       linearPCMIsFloat: false,
     },
   };
-
+  const {
+    data: userData,
+    error: userError,
+    isLoading: userLoading,
+  } = useQuery({
+    queryKey: ["userData"],
+    queryFn: getMe,
+  });
+  const {
+    data: professorsData,
+    error: professorsError,
+    isLoading: professorsLoading,
+  } = useQuery({
+    queryKey: ["professorsData"],
+    queryFn: getProfessors,
+  });
+  const {
+    data: coursesData,
+    error: coursesError,
+    isLoading: coursesLoading,
+  } = useQuery({
+    queryKey: ["coursesData"],
+    queryFn: getAllCourses,
+  });
+  const {
+    data: communitiesData,
+    error: communitiesError,
+    isLoading: communitiesLoading,
+  } = useQuery({
+    queryKey: ["communitiesData"],
+    queryFn: getAllCommunities,
+  });
   const startRecording = async () => {
     const hasPermission = await getMicrophonePermission();
     if (!hasPermission) return;
@@ -133,12 +170,14 @@ export default function ChatbotVoice() {
       const response = await axios.post(
         "https://api.openai.com/v1/chat/completions",
         {
-          model: "gpt-4",
+          model: "gpt-3.5-turbo",
           messages: [
             {
               role: "system",
-              content:
-                "You are Artifonia, a friendly AI assistant who responds naturally and refers to yourself as Artifonia when asked for your name. You are a helpful assistant who can answer questions and help with tasks. You must always respond in English, no matter the input language, and provide helpful, clear answers",
+              content: `You are Fahim, an AI bot designed to help students at UniNav. You must always respond in English, no matter the input language.You have access to the following data: 
+    - User data: ${JSON.stringify(userData)}
+    - Professors data: ${JSON.stringify(professorsData)}
+    - Courses data: ${JSON.stringify(coursesData)}`,
             },
             {
               role: "user",
@@ -184,10 +223,12 @@ export default function ChatbotVoice() {
       lottieRef.current?.reset();
     }
   }, [AISpeaking]);
-
+  if (userError || professorsError || coursesError || communitiesError) {
+    return <Text>Error loading data</Text>;
+  }
   return (
     <LinearGradient
-      colors={["#250152", "#000"]}
+      colors={["#000", "#1a1a1a", "#1a1a1a"]}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
       style={styles.container}
@@ -208,12 +249,16 @@ export default function ChatbotVoice() {
       <View style={styles.recordingContainer}>
         {loading ? (
           <TouchableOpacity>
-            <LottieView
+            {/* <LottieView
               source={require("../assets/animations/loading.json")}
               autoPlay
               loop
               speed={1.3}
               style={{ width: 270, height: 270 }}
+            /> */}
+            <Image
+              source={require("../assets/4bcb1fb72d1d08efa44efa5ceb712ec7.gif")}
+              style={styles.image}
             />
           </TouchableOpacity>
         ) : (
@@ -277,7 +322,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#131313",
+    backgroundColor: "black",
   },
   backButton: {
     position: "absolute",
@@ -301,6 +346,11 @@ const styles = StyleSheet.create({
     width: 350,
     position: "absolute",
     bottom: 90,
+  },
+  image: {
+    width: 300,
+    height: 300,
+    marginBottom: 30,
   },
   text: {
     color: "#fff",
