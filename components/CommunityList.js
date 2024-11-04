@@ -9,14 +9,14 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { getAllCommunities } from "../src/api/Community";
-import UserContext from "../context/UserContext";
 import { useQuery } from "@tanstack/react-query";
 import CommunityCard from "./CommunityCard";
+import { colors } from "../Colors";
 
-const CommunityList = ({ searchQuery }) => {
+const CommunityList = () => {
   const { data } = useQuery({
-    queryKey: ["getAllCommunities", searchQuery],
-    queryFn: () => getAllCommunities(searchQuery),
+    queryKey: ["getAllCommunities"],
+    queryFn: getAllCommunities,
   });
 
   return (
@@ -61,10 +61,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   text: {
-    color: "#e8b800", // Text color
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
   },
   button: {
-    backgroundColor: "#4b3f72", // Button color
+    backgroundColor: colors.brightBlue, // Button color
     padding: 10,
     borderRadius: 5,
     alignItems: "center",

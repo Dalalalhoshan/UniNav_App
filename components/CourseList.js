@@ -9,11 +9,12 @@ import React from "react";
 import { getAllCourses } from "./../src/api/courses";
 import { useQuery } from "@tanstack/react-query";
 import CourseCard from "./CourseCard";
+import { colors } from "../Colors";
 
-const CourseList = ({ searchQuery }) => {
+const CourseList = () => {
   const { data } = useQuery({
-    queryKey: ["getAllCourses", searchQuery],
-    queryFn: () => getAllCourses(searchQuery),
+    queryKey: ["getAllCourses"],
+    queryFn: getAllCourses,
   });
 
   return (
@@ -58,10 +59,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   text: {
-    color: "#e8b800", // Text color
+    color: "white", // Text color
+    fontWeight: "bold",
+    fontSize: 16,
+    marginBottom: 10,
   },
   button: {
-    backgroundColor: "#4b3f72", // Button color
+    backgroundColor: colors.brightBlue, // Button color
     padding: 10,
     borderRadius: 5,
     alignItems: "center",

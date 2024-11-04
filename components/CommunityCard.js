@@ -43,13 +43,14 @@ const CommunityCard = ({ item }) => {
           position: "absolute",
           bottom: 0,
           width: "100%",
-          backgroundColor: "rgba(232,184,0,0.4)",
+          backgroundColor: "rgba(0, 123, 255, 0.4)",
           borderBottomLeftRadius: 10,
           borderBottomRightRadius: 10,
         }}
       >
-        <Text style={{ fontSize: 15, color: "black" }}>{item?.name}</Text>
-        <Text style={{ fontSize: 15, color: "black" }}>
+        <Text style={{ fontSize: 15, color: "white" }}>{item?.name}</Text>
+        <Text style={{ fontSize: 15, color: "white" }}>
+          <Text style={{ fontWeight: "bold" }}>Created By:</Text>{" "}
           {item?.createdBy.username}
         </Text>
       </View>
