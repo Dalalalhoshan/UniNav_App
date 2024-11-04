@@ -23,7 +23,20 @@ const HomeNavigation = () => {
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="CommunityIndex" component={CommunityDetails} />
       <Stack.Screen name="Profile" component={Profile} />
-      <Stack.Screen name="ResourceDetailIndex" component={ResourceDetail} />
+      <Stack.Screen
+        name="ResourceDetailIndex"
+        component={ResourceDetail}
+        options={{
+          headerShown: true,
+          headerTitle: "Resource Detail",
+          headerTitleStyle: {
+            color: "white",
+          },
+          headerStyle: {
+            backgroundColor: "#1a1a1a",
+          },
+        }}
+      />
       <Stack.Screen name="AccountCard" component={AccountCard} />
       <Stack.Screen name="AccountDetails" component={AccountDetails} />
       <Stack.Screen name="AccountList" component={AccountList} />
