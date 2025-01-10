@@ -1,5 +1,5 @@
 # UniNav: Student Resource Hub (FRONTEND)
-<img src="Logo-landingpage.jpeg" alt="Display" width="200"/>
+<img src="Logo-landingpage - Copy.jpeg" alt="Display" width="200"/>
 
 ## Description
 **UniNav** is a comprehensive student resource platform designed to help students discover, share, and collaborate on study materials, as well as connect with peers.
